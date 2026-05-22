@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Island Companion · HKIA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,15 +18,16 @@
   --r:16px;--rs:10px;--pill:100px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background-color:#FDECD8;background-image:radial-gradient(circle,rgba(242,107,80,.16) 1.5px,transparent 1.5px);background-size:22px 22px}
 body{font-family:var(--fn);background:var(--bg);color:var(--tx);font-size:14px;line-height:1.55;max-width:680px;margin:0 auto;min-height:100vh}
-.hdr{background:linear-gradient(135deg,#F26B50 0%,#E8943A 100%);padding:16px 20px 12px;text-align:center;position:relative;overflow:hidden}
-.hdr::before{content:'✦  ✦  ✦';position:absolute;top:7px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.2);font-size:10px;letter-spacing:10px;white-space:nowrap}
-.hdr-isle{font-size:26px;margin-bottom:2px}
-.hdr h1{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.5px}
-.hdr p{font-size:11px;color:rgba(255,255,255,.82);margin-top:2px}
+.hdr{background:linear-gradient(135deg,#F26B50 0%,#E8943A 100%);padding:11px 20px 10px;text-align:center;position:relative;overflow:hidden}
+.hdr::before{content:'✦  ✦  ✦';position:absolute;top:5px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.2);font-size:10px;letter-spacing:10px;white-space:nowrap}
+.hdr-title{display:flex;align-items:center;justify-content:center;gap:9px}
+.hdr-isle{font-size:24px;flex-shrink:0}
+.hdr h1{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.5px;margin:0}
 .tabs{display:flex;background:var(--sf);border-bottom:1.5px solid var(--bd);overflow-x:auto;scrollbar-width:none;padding:0 2px;-ms-overflow-style:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:1;min-width:62px;min-height:46px;padding:10px 3px;font-family:var(--fn);font-size:11px;font-weight:600;color:var(--t2);background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;cursor:pointer;white-space:nowrap;line-height:1.3;transition:color .15s;text-align:center}
+.tab{flex:1;min-width:54px;min-height:46px;padding:10px 2px;font-family:var(--fn);font-size:11px;font-weight:600;color:var(--t2);background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;cursor:pointer;white-space:nowrap;line-height:1.3;transition:color .15s;text-align:center}
 .tab[aria-selected="true"]{color:var(--p);border-bottom-color:var(--p);font-weight:800}
 .tab:focus-visible{outline:2px solid var(--p);outline-offset:-2px;border-radius:3px}
 .tab:active{opacity:.7}
@@ -283,14 +284,147 @@ body{font-family:var(--fn);background:var(--bg);color:var(--tx);font-size:14px;l
 .ptier-arrow{text-align:center;font-size:11px;color:var(--tm);padding:2px 0;letter-spacing:.04em;font-weight:600}
 .goal-expired{opacity:.55}
 .pc-gift-lbl{font-size:9.5px;color:var(--tm);margin-top:2px}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE — mobile-first overrides
+   Breakpoints: 480px (most phones), 400px (small phones)
+   ══════════════════════════════════════════════════════ */
+
+/* Flower table scroll container */
+.ftbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
+.ftbl{min-width:320px}
+
+/* ── ≤ 480px: general phone fixes ─── */
+@media (max-width:480px){
+
+  /* Tabs: tighter so 8 tabs need less scroll */
+  .tab{min-width:50px;font-size:10px;padding:9px 1px;min-height:44px}
+
+  /* Body padding */
+  .panel{padding:0}
+
+  /* Today: stat grid can stay 2-col but tighten */
+  .sg{gap:7px}
+  .sc{padding:10px 10px}
+  .sn{font-size:26px}
+
+  /* Visitor / crafting / friend rows — allow label wrapping */
+  .vc-n{font-size:12px}
+  .gc-g{font-size:11px}
+
+  /* Secrets grid */
+  .sg-grid{grid-template-columns:1fr!important}
+
+  /* Planner: tier cards fill row evenly */
+  .pcard{min-width:calc(50% - 6px);max-width:none}
+  .plan-wrap{padding:12px 12px 28px}
+
+  /* Goals */
+  .goal-card{padding-right:32px}
+  .goal-header{flex-wrap:wrap;gap:3px}
+
+  /* Oracle input */
+  .oir{gap:5px}
+  .osend{min-width:60px;font-size:12px}
+
+  /* Crafting info grid keeps 2-col but allow overflow */
+  .info-grid{gap:5px}
+  .ig-label{font-size:9px}
+
+  /* Filter pills wrap */
+  .filter-row,.fpills{flex-wrap:wrap;gap:5px}
+
+  /* Section headers don't clip */
+  .stc-head,.sec-head,.stc-name{flex-wrap:wrap;min-width:0}
+  .stc-name{font-size:13px}
+
+  /* Birthday rows */
+  .brow{padding:7px 0;gap:7px}
+}
+
+/* ── ≤ 400px: small phones (iPhone SE, Galaxy A series) ─── */
+@media (max-width:400px){
+
+  /* Tabs: absolute minimum so 7 fit on screen */
+  .tab{min-width:44px;font-size:9.5px;padding:8px 1px}
+
+  /* Collapse 2-col grids to single column */
+  .matrix{grid-template-columns:1fr}
+  .gi{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr}
+
+  /* Stat grid: keep 2-col but shrink */
+  .sg{grid-template-columns:1fr 1fr;gap:6px}
+  .sn{font-size:22px}
+  .sc{padding:9px 8px}
+
+  /* Planner: single-column stacking on smallest screens */
+  .pcard{min-width:100%;max-width:100%}
+  .pc-name{font-size:12px}
+
+  /* Daily loop rows: wrap step number + text */
+  .loop-row{flex-wrap:wrap;gap:4px}
+  .loop-num{margin-top:2px}
+
+  /* Event rows */
+  .ev-row{flex-wrap:wrap;gap:3px}
+  .ev-month{min-width:48px}
+
+  /* Birthday rows */
+  .bl{flex-wrap:wrap}
+
+  /* Banner: icon stays, text wraps */
+  .banner{padding:10px 12px;gap:8px}
+
+  /* Visitor / companion / crafting rows */
+  .vc-btn{padding:10px 12px;min-height:48px}
+  .gc-btn{padding:10px 12px;min-height:48px}
+  .ac-btn{padding:10px 12px;min-height:48px}
+
+  /* Friends matrix labels */
+  .matrix .card-inner{font-size:12px}
+
+  /* Flower tips */
+  .tip{flex-wrap:wrap}
+
+  /* Oracle */
+  .oir{flex-direction:column}
+  .oi{border-radius:var(--r);min-height:40px}
+  .osend{border-radius:var(--r);min-height:40px;min-width:100%}
+
+  /* Header tighten */
+  .hdr{padding:12px 14px 10px}
+  .hdr h1{font-size:20px}
+
+  /* Panel padding */
+  .card{margin:0 10px 10px;padding:12px}
+
+  /* Goals counter */
+  .goal-count{font-size:13px;min-width:38px}
+  .goal-btn{width:28px;height:28px;font-size:14px}
+
+  /* Quest toggle pills */
+  .plan-quests-row{gap:4px}
+  .plan-quest{font-size:11px;padding:5px 9px}
+}
+
+/* ── Desktop: centre and max-width already handled by body rule ─── */
+@media (min-width:681px){
+  body{font-size:15px}
+  .tab{font-size:12px;padding:11px 8px;min-width:70px}
+  .hdr h1{font-size:26px}
+  .plan-wrap{padding:18px 20px 40px}
+}
+
 </style>
 </head>
 <body>
 
 <header class="hdr">
-  <div class="hdr-isle" aria-hidden="true">🏝️</div>
-  <h1>Island Companion</h1>
-  <p>Late-stage HKIA · veteran reference</p>
+  <div class="hdr-title">
+    <span class="hdr-isle" aria-hidden="true">🏝️</span>
+    <h1>Island Companion</h1>
+  </div>
 </header>
 
 <nav role="tablist" aria-label="App sections" class="tabs">
@@ -365,7 +499,7 @@ body{font-family:var(--fn);background:var(--bg);color:var(--tx);font-size:14px;l
 <section role="tabpanel" id="panel-flowers" class="panel" aria-labelledby="tab-flowers">
   <div class="card">
     <div class="sh" style="margin-bottom:10px">Color Combinations</div>
-    <table class="ftbl"><thead><tr><th>Parents</th><th>Result</th><th>Notes</th></tr></thead><tbody id="ctbl"></tbody></table>
+    <div class="ftbl-scroll"><table class="ftbl"><thead><tr><th>Parents</th><th>Result</th><th>Notes</th></tr></thead><tbody id="ctbl"></tbody></table></div>
   </div>
   <div class="cb-block">
     <div class="sh" style="color:#7A4800;margin-bottom:9px">Cannot be bred — base colors only</div>
@@ -884,8 +1018,11 @@ function tog(prefix,id){
 function go(id){
   document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected','false'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+id).setAttribute('aria-selected','true');
+  const activeTab=document.getElementById('tab-'+id);
+  activeTab.setAttribute('aria-selected','true');
   document.getElementById('panel-'+id).classList.add('active');
+  // Scroll active tab into view on narrow screens
+  activeTab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
 }
 
 // ════════════════════════════════════════════════════════
