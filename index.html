@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Island Companion · HKIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF9F0;--sf:#FFF;--bd:#FFD0B0;
+  --p:#F26B50;--pl:#FFF1EC;--pb:#FFB899;
+  --t:#3BBCA8;--tl:#E8F8F5;--tb:#9ADDD5;
+  --g:#E8943A;--gl:#FFF6E5;--gb:#F5C870;
+  --tx:#2C1800;--t2:#5C3A1E;--tm:#7A4E2A;
+  --fn:'Nunito','Trebuchet MS','Segoe UI',sans-serif;
+  --r:16px;--rs:10px;--pill:100px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--fn);background:var(--bg);color:var(--tx);font-size:14px;line-height:1.55;max-width:680px;margin:0 auto;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#F26B50 0%,#E8943A 100%);padding:16px 20px 12px;text-align:center;position:relative;overflow:hidden}
+.hdr::before{content:'✦  ✦  ✦';position:absolute;top:7px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.2);font-size:10px;letter-spacing:10px;white-space:nowrap}
+.hdr-isle{font-size:26px;margin-bottom:2px}
+.hdr h1{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.5px}
+.hdr p{font-size:11px;color:rgba(255,255,255,.82);margin-top:2px}
+.tabs{display:flex;background:var(--sf);border-bottom:1.5px solid var(--bd);overflow-x:auto;scrollbar-width:none;padding:0 2px;-ms-overflow-style:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:62px;min-height:46px;padding:10px 3px;font-family:var(--fn);font-size:11px;font-weight:600;color:var(--t2);background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;cursor:pointer;white-space:nowrap;line-height:1.3;transition:color .15s;text-align:center}
+.tab[aria-selected="true"]{color:var(--p);border-bottom-color:var(--p);font-weight:800}
+.tab:focus-visible{outline:2px solid var(--p);outline-offset:-2px;border-radius:3px}
+.tab:active{opacity:.7}
+.content{padding:14px 13px 52px}
+.panel{display:none}.panel.active{display:block}
+.sh{font-size:10px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.card{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);padding:13px 15px;margin-bottom:12px}
+.banner{background:var(--gl);border:1.5px solid var(--gb);border-radius:var(--r);padding:12px 14px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
+.b-icon{font-size:20px;flex-shrink:0}
+.b-title{font-size:13px;font-weight:800;color:#7A4800;margin-bottom:2px}
+.b-text{font-size:12px;color:#6B4228;line-height:1.45}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.sc{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);padding:12px;text-align:center}
+.sc.tl{background:var(--tl);border-color:var(--tb)}
+.sn{font-size:34px;font-weight:900;color:var(--p);line-height:1}
+.sc.tl .sn{font-size:17px;line-height:1.2;color:var(--t)}
+.sl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-top:4px;color:var(--t2)}
+.sc.tl .sl{color:#2A7A6E}
+.ss{font-size:11px;color:var(--tm);margin-top:4px}
+.sc.tl .ss{color:#3A8A7E}
+.loop-row{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid #FFE0CC}
+.loop-row:last-child{border-bottom:none}
+.loop-num{width:20px;min-width:20px;height:20px;border-radius:50%;background:var(--p);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;margin-top:2px;flex-shrink:0}
+.loop-row.wk .loop-num{background:var(--t)}
+.loop-title{font-weight:700;font-size:12px}
+.loop-note{font-size:11px;color:var(--tm);margin-top:1px;line-height:1.4}
+.lkey{display:inline-block;background:var(--pl);color:#A03020;border-radius:var(--pill);padding:1px 8px;font-size:10px;font-weight:700;margin-top:2px}
+.lkey.g{background:var(--tl);color:#1A6A5A}
+.brow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #FFE0CC}
+.brow:last-child{border-bottom:none}
+.bl{display:flex;align-items:center;gap:9px}
+.be{font-size:20px}
+.bn{font-weight:700;font-size:13px}
+.bd{font-size:11px;color:var(--tm)}
+.badge{border-radius:var(--pill);padding:3px 11px;font-size:11px;font-weight:700}
+.soon{background:#FFE5DC;color:#B83020}
+.later{background:#F0EDE6;color:var(--t2)}
+.ev-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #FFE0CC}
+.ev-row:last-child{border-bottom:none}
+.ev-month{min-width:54px;font-size:11px;font-weight:700;color:var(--p)}
+.ev-name{font-size:12px;font-weight:700;color:var(--tx)}
+.ev-note{font-size:11px;color:var(--tm);line-height:1.3}
+/* FILTER PILLS */
+.filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.fpill{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--pill);padding:5px 12px;font-family:var(--fn);font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;min-height:34px;transition:background .1s,border-color .1s,color .1s}
+.fpill.on{background:var(--p);border-color:var(--p);color:#fff}
+/* VISITOR CARDS */
+.vc{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);margin-bottom:9px;overflow:hidden}
+.vc-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:11px 14px;font-family:var(--fn);background:none;border:none;text-align:left;cursor:pointer;min-height:52px;gap:8px}
+.vc-btn:active{background:var(--pl)}
+.vc-btn:focus-visible{outline:2px solid var(--p);outline-offset:-2px}
+.vc-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.vc-e{font-size:20px;flex-shrink:0}
+.vc-n{font-weight:800;font-size:13px;color:var(--tx)}
+.vc-s{font-size:11px;color:var(--tm)}
+.vc-tag{border-radius:var(--pill);padding:2px 9px;font-size:10px;font-weight:700;flex-shrink:0;white-space:nowrap}
+.tag-any{background:#E8F0FF;color:#3355BB}
+.tag-spr{background:#E8F8E8;color:#2A6A2A}
+.tag-sum{background:#FFF5E0;color:#885500}
+.tag-fall{background:#FFE8E0;color:#883000}
+.tag-win{background:#E8EEF8;color:#334499}
+.tag-quest{background:#F0E8FF;color:#553388}
+.tag-dlc{background:var(--tl);color:#1A6A5A}
+.vc-chev{color:var(--tm);font-size:11px;flex-shrink:0;transition:transform .2s}
+.vc.open{border-color:var(--p)}
+.vc.open .vc-btn{background:var(--pl)}
+.vc.open .vc-chev{transform:rotate(180deg)}
+.vc-body{display:none;padding:0 14px 12px;border-top:1px solid var(--pb)}
+.vc.open .vc-body{display:block}
+.req-list{margin-top:9px}
+.req-item{display:flex;gap:8px;padding:4px 0;font-size:12px;line-height:1.4}
+.req-dot{width:6px;min-width:6px;height:6px;border-radius:50%;background:var(--p);margin-top:5px}
+.vc-gift{margin-top:8px;font-size:12px;color:var(--t2)}
+.vc-note{margin-top:7px;background:var(--pl);border-left:3px solid var(--p);border-radius:0 var(--rs) var(--rs) 0;padding:7px 10px;font-size:11px;color:var(--t2);line-height:1.45}
+/* STATION CARDS */
+.stc{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);padding:13px 15px;margin-bottom:10px}
+.stc-head{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.stc-icon{font-size:22px}
+.stc-name{font-weight:800;font-size:14px;color:var(--tx)}
+.stc-loc{font-size:11px;color:var(--tm)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ig{background:var(--bg);border-radius:var(--rs);padding:8px 10px}
+.ig-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tm);margin-bottom:2px}
+.ig-val{font-size:12px;font-weight:700;color:var(--tx)}
+.ig-val.p{color:var(--p)}
+.ig-val.t{color:var(--t)}
+.stc-note{margin-top:8px;font-size:11px;color:var(--t2);line-height:1.45}
+.stc-mini{margin-top:7px;background:var(--tl);border-radius:var(--rs);padding:7px 10px;font-size:11px;color:#1A5A50;line-height:1.45}
+/* COMPACT SECTION DIVIDERS */
+.sec-head{display:flex;align-items:center;gap:8px;margin:16px 0 10px}
+.sec-line{flex:1;height:1px;background:var(--bd)}
+.sec-label{font-size:10px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.8px;white-space:nowrap}
+/* GIFT CARDS */
+.gc{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);margin-bottom:9px;overflow:hidden}
+.gc-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;font-family:var(--fn);background:none;border:none;text-align:left;cursor:pointer;min-height:50px;gap:8px}
+.gc-btn:active{background:var(--pl)}
+.gc-btn:focus-visible{outline:2px solid var(--p);outline-offset:-2px}
+.gc-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.gc-emoji{font-size:20px;flex-shrink:0}
+.gc-n{font-weight:800;font-size:13px}
+.gc-g{font-size:11px;color:var(--tm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-r{font-size:11px;color:var(--t);font-weight:700;white-space:nowrap;flex-shrink:0}
+.gc-cv{color:var(--tm);font-size:11px;flex-shrink:0;transition:transform .2s}
+.gc.open{border-color:var(--p)}
+.gc.open .gc-btn{background:var(--pl)}
+.gc.open .gc-cv{transform:rotate(180deg)}
+.gc-body{display:none;padding:0 14px 12px;border-top:1px solid var(--pb)}
+.gc.open .gc-body{display:block}
+.gi{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.gbox{background:var(--bg);border-radius:var(--rs);padding:7px 9px}
+.gbox-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tm);margin-bottom:2px}
+.gbox-v{font-size:12px;font-weight:700;color:var(--tx)}
+.gbox-v.gr{color:#1A7A62}
+.gcn{margin-top:7px;font-size:11px;color:var(--t2);background:var(--pl);border-left:3px solid var(--p);border-radius:0 var(--rs) var(--rs) 0;padding:7px 10px;line-height:1.45}
+/* COMPANION MATRIX + ROSTER */
+.matrix{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}
+.mx{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--rs);padding:8px 10px;cursor:pointer}
+.mx:active{background:var(--pl)}
+.mx-top{font-size:10px;font-weight:700;color:var(--t2)}
+.mx-who{font-size:13px;font-weight:900;color:var(--p);margin-top:1px}
+.mx-ab{font-size:10px;color:var(--tm);margin-top:1px}
+.ac{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);margin-bottom:9px;overflow:hidden}
+.ac-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:11px 14px;font-family:var(--fn);font-size:14px;background:none;border:none;text-align:left;cursor:pointer;min-height:52px}
+.ac-btn:focus-visible{outline:2px solid var(--p);outline-offset:-2px}
+.ac-btn:active{background:var(--pl)}
+.ac-left{display:flex;align-items:center;gap:8px}
+.ac-icon{font-size:20px}
+.ac-name{font-weight:800;font-size:13px;color:var(--tx)}
+.ac-sub{font-size:11px;color:var(--tm)}
+.ac-chev{color:var(--tm);font-size:11px;flex-shrink:0;transition:transform .2s}
+.ac.open{border-color:var(--p)}
+.ac.open .ac-btn{background:var(--pl)}
+.ac.open .ac-chev{transform:rotate(180deg)}
+.ac-body{display:none;padding:0 14px 12px;border-top:1px solid var(--pb)}
+.ac.open .ac-body{display:block}
+.ab-row{padding:8px 0;border-bottom:1px solid #FFE0CC}
+.ab-row:last-child{border-bottom:none}
+.ab-lv{display:inline-block;background:var(--pl);color:#A03020;border-radius:var(--pill);padding:1px 8px;font-size:10px;font-weight:700;margin-bottom:2px}
+.ab-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--tm)}
+.ab-desc{font-size:12px;color:var(--tx);margin-top:2px;line-height:1.45}
+.dlc{display:inline-block;background:var(--tl);color:#1A6A5A;border-radius:var(--pill);padding:1px 8px;font-size:10px;font-weight:700;margin-left:4px}
+/* FLOWER TABLE */
+.ftbl{width:100%;border-collapse:collapse;font-size:12px}
+.ftbl th{text-align:left;padding:0 0 7px;font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.ftbl th:nth-child(2),.ftbl td:nth-child(2){padding-left:7px;padding-right:7px}
+.ftbl tr+tr td{border-top:1px solid #FFE0CC}
+.ftbl td{padding:7px 0;vertical-align:top;line-height:1.4}
+.ftbl td:nth-child(1){font-weight:700;color:var(--t2);min-width:90px}
+.ftbl td:nth-child(2){font-weight:900;color:var(--p);white-space:nowrap}
+.ftbl td:nth-child(3){color:var(--tm);font-size:11px}
+.cb-block{background:var(--gl);border:1.5px solid var(--gb);border-radius:var(--r);padding:12px 14px;margin-bottom:12px}
+.pill{display:inline-block;background:#FFE4B0;color:#7A4800;border-radius:var(--pill);padding:3px 11px;font-size:11px;font-weight:700;margin:2px 2px 0 0}
+.tip{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-bottom:1px solid #FFE0CC}
+.tip:last-child{border-bottom:none}
+.ti{font-size:17px;flex-shrink:0}
+.tt{font-size:12px;line-height:1.5}
+/* ORACLE */
+.on{background:var(--pl);border-radius:var(--rs);padding:9px 13px;font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:11px}
+.on a{color:var(--p)}
+.cwin{background:var(--bg);border:1.5px solid var(--bd);border-radius:var(--r);padding:12px;min-height:180px;max-height:320px;overflow-y:auto;margin-bottom:10px}
+.msg{max-width:88%;border-radius:18px;padding:9px 13px;font-size:12px;line-height:1.55;margin-bottom:9px;word-wrap:break-word}
+.msg-u{margin-left:auto;background:var(--p);color:#fff;border-radius:18px 18px 4px 18px}
+.msg-a{margin-right:auto;background:var(--sf);color:var(--tx);border:1.5px solid var(--bd);border-radius:18px 18px 18px 4px}
+.msg-t{margin-right:auto;background:var(--sf);color:var(--tm);border:1.5px solid var(--bd);border-radius:18px 18px 18px 4px;font-style:italic}
+.oir{display:flex;gap:7px;margin-bottom:11px}
+.oi{flex:1;min-height:44px;border-radius:var(--pill);border:1.5px solid var(--bd);padding:9px 15px;font-family:var(--fn);font-size:13px;color:var(--tx);background:var(--sf);outline:none}
+.oi:focus{border-color:var(--p)}
+.osend{min-height:44px;min-width:70px;border-radius:var(--pill);border:none;background:var(--p);color:#fff;font-family:var(--fn);font-size:13px;font-weight:800;cursor:pointer;padding:9px 17px;white-space:nowrap}
+.osend:disabled{background:#FFB8A5;cursor:default}
+.osend:active:not(:disabled){opacity:.85}
+.slabel{font-size:11px;color:var(--tm);margin-bottom:6px}
+.suggs{display:flex;flex-wrap:wrap;gap:6px}
+.sbtn{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--pill);padding:7px 13px;font-family:var(--fn);font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;min-height:44px}
+.sbtn:active{background:var(--pl)}
+
+/* ── PLANNER ─────────────────────────────────── */
+.plan-wrap{padding:14px 14px 32px}
+.plan-sec-hd{margin-bottom:12px}
+.plan-title{font-size:15px;font-weight:700;color:var(--p);margin-bottom:2px}
+.plan-sub{font-size:11.5px;color:var(--tm);line-height:1.45}
+.plan-block-lbl{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tm);margin:12px 0 6px}
+.plan-divider{height:1px;background:var(--bd);margin:22px 0}
+
+/* Quest toggles */
+.plan-quests-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.plan-quest{border:1.5px solid var(--bd);background:var(--sf);color:var(--tx);font-size:12px;font-family:var(--fn);padding:5px 11px;border-radius:var(--pill);cursor:pointer;transition:.15s;font-weight:600;line-height:1.3}
+.plan-quest:hover{border-color:var(--p);color:var(--p)}
+.pq-done{background:var(--tl)!important;border-color:var(--t)!important;color:var(--t)!important}
+.pq-done::before{content:'✓ '}
+
+/* Tiers */
+.plan-chain{display:flex;flex-direction:column;gap:14px}
+.ptier{border-radius:var(--r);overflow:hidden}
+.ptier-lbl{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 10px;background:var(--pl);color:var(--p)}
+.ptier-cards{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0}
+
+/* Visitor cards */
+.pcard{position:relative;border-radius:var(--rs);padding:9px 11px 8px;min-width:120px;max-width:160px;flex:1;border:1.5px solid transparent;transition:.15s;cursor:default}
+.ps-locked{background:#f4f4f4;border-color:#ddd;opacity:.75}
+.ps-ready{background:var(--pl);border-color:var(--p);box-shadow:0 0 0 2px rgba(242,107,80,.15)}
+.ps-active{background:var(--gl);border-color:var(--g)}
+.ps-done{background:var(--tl);border-color:var(--t)}
+
+.pc-name{font-size:12.5px;font-weight:700;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-locked .pc-name{color:#999}
+.ps-ready  .pc-name{color:var(--p)}
+.ps-active .pc-name{color:var(--g)}
+.ps-done   .pc-name{color:var(--t)}
+
+.pc-freq{font-size:10px;color:var(--tm);margin-bottom:5px}
+
+.pc-stars{display:flex;gap:2px;margin-bottom:3px}
+.pd{background:none;border:none;padding:0;font-size:13px;cursor:pointer;color:#ccc;line-height:1;transition:.1s;font-family:var(--fn)}
+.pd:hover{color:var(--g)!important;transform:scale(1.2)}
+.pf{color:var(--g)!important}
+.ps-done .pf{color:var(--t)!important}
+.ps-done .pd{color:var(--tb)!important}
+.ps-locked .pd{cursor:not-allowed}
+
+.pc-lock{font-size:9.5px;color:#aaa;line-height:1.35;margin-top:2px}
+.pc-done-badge{font-size:9.5px;color:var(--t);font-weight:700;margin-top:2px}
+
+/* Connector arrows between tiers */
+.ptier+.ptier::before{content:'↓';display:block;text-align:center;font-size:16px;color:var(--bd);margin:0 0 8px;line-height:1}
+
+/* Route summary */
+.plan-route-box{background:var(--pl);border:1.5px solid var(--pb);border-radius:var(--r);padding:12px 14px;margin-top:12px}
+.plan-route-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);margin-bottom:8px}
+.plan-route-item{font-size:12.5px;color:var(--tx);padding:4px 0 4px 10px;border-left:2px solid var(--pb);margin-bottom:5px;line-height:1.4}
+.plan-route-item:last-child{margin-bottom:0}
+.plan-all-done{text-align:center;color:var(--t);font-weight:700;padding:12px;font-size:14px}
+
+/* Goals */
+.goal-card{position:relative;background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);padding:11px 36px 11px 13px;margin-bottom:10px}
+.goal-urgent{border-color:var(--p);background:var(--pl)}
+.goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.goal-name{font-size:13px;font-weight:700;color:var(--tx)}
+.goal-dl{font-size:11px;color:var(--tm);background:var(--bg);padding:1px 7px;border-radius:var(--pill)}
+.goal-dl-red{background:var(--pl);color:var(--p);font-weight:700}
+.goal-note{font-size:11.5px;color:var(--tm);margin-bottom:7px;line-height:1.4}
+.goal-progress{display:flex;flex-direction:column;gap:5px}
+.goal-nums{display:flex;align-items:center;gap:8px}
+.goal-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bd);background:var(--bg);font-size:15px;cursor:pointer;line-height:1;color:var(--tx);font-family:var(--fn);font-weight:700;flex-shrink:0;transition:.1s}
+.goal-btn:hover{border-color:var(--p);color:var(--p)}
+.goal-count{font-size:15px;font-weight:700;color:var(--tx);min-width:48px;text-align:center}
+.goal-daily{font-size:11px;color:var(--tm)}
+.goal-bar-wrap{height:6px;background:var(--bd);border-radius:3px;overflow:hidden}
+.goal-bar-fill{height:100%;background:linear-gradient(90deg,var(--t),var(--g));border-radius:3px;transition:width .3s}
+.goal-del{position:absolute;top:8px;right:10px;background:none;border:none;color:#ccc;font-size:16px;cursor:pointer;line-height:1;padding:2px 4px;font-family:var(--fn)}
+.goal-del:hover{color:var(--p)}
+.plan-add-btn{width:100%;padding:10px;border:1.5px dashed var(--bd);background:transparent;border-radius:var(--r);font-family:var(--fn);font-size:13px;font-weight:700;color:var(--tm);cursor:pointer;margin-top:4px;transition:.15s}
+.plan-add-btn:hover{border-color:var(--p);color:var(--p)}
+
+.ptier-arrow{text-align:center;font-size:11px;color:var(--tm);padding:2px 0;letter-spacing:.04em;font-weight:600}
+.goal-expired{opacity:.55}
+.pc-gift-lbl{font-size:9.5px;color:var(--tm);margin-top:2px}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-isle" aria-hidden="true">🏝️</div>
+  <h1>Island Companion</h1>
+  <p>Late-stage HKIA · veteran reference</p>
+</header>
+
+<nav role="tablist" aria-label="App sections" class="tabs">
+  <button role="tab" class="tab" id="tab-today"     aria-controls="panel-today"     aria-selected="true"  onclick="go('today')">🗓 Today</button>
+  <button role="tab" class="tab" id="tab-visitors"  aria-controls="panel-visitors"  aria-selected="false" onclick="go('visitors')">🏠 Visitors</button>
+  <button role="tab" class="tab" id="tab-crafting"  aria-controls="panel-crafting"  aria-selected="false" onclick="go('crafting')">🔧 Crafting</button>
+  <button role="tab" class="tab" id="tab-friends"   aria-controls="panel-friends"   aria-selected="false" onclick="go('friends')">⭐ Friends</button>
+  <button role="tab" class="tab" id="tab-flowers"   aria-controls="panel-flowers"   aria-selected="false" onclick="go('flowers')">🌸 Flowers</button>
+  <button role="tab" class="tab" id="tab-secrets"   aria-controls="panel-secrets"   aria-selected="false" onclick="go('secrets')">🌟 Secrets</button>
+  <button role="tab" class="tab" id="tab-oracle"    aria-controls="panel-oracle"    aria-selected="false" onclick="go('oracle')">🔮 Oracle</button>
+  <button role="tab" class="tab" id="tab-planner"  aria-controls="panel-planner"  aria-selected="false" onclick="go('planner');renderPlanner()">📋 Planner</button>
+</nav>
+
+<main class="content">
+
+<!-- TODAY -->
+<section role="tabpanel" id="panel-today" class="panel active" aria-labelledby="tab-today">
+  <div id="meh-banner"></div>
+  <div class="sg">
+    <div class="sc" role="status"><div class="sn" id="dtm">—</div><div class="sl">days to Monday</div><div class="ss">Tophat Gudetama resets</div></div>
+    <div class="sc tl"><div class="sn">City Town</div><div class="sl">DLC · Apr 2026</div><div class="ss">90+ quests · 60+ puzzles</div></div>
+  </div>
+  <div class="sh">Daily Loop — Execution Order</div>
+  <div class="card" id="loop-list"></div>
+  <div class="sh" style="margin-top:4px">Upcoming Birthdays</div>
+  <div class="card">
+    <p style="font-size:11px;color:var(--tm);margin-bottom:9px">Sanrio canon dates — <a href="https://hellokittyislandadventure.wiki.gg/wiki/Events" target="_blank" rel="noopener" style="color:var(--p);text-decoration:none">check wiki ↗</a> for in-game shifts</p>
+    <div id="bday-list"></div>
+  </div>
+  <div class="sh" style="margin-top:4px">Annual Event Calendar</div>
+  <div class="card" id="event-list"></div>
+  <div class="sh" style="margin-top:4px">Quest Categories</div>
+  <div class="card">
+    <p style="font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:10px">Open your Menu Tablet → Quests to track progress. Key categories for a maxed player:</p>
+    <div id="quest-cats"></div>
+  </div>
+</section>
+
+<!-- VISITORS -->
+<section role="tabpanel" id="panel-visitors" class="panel" aria-labelledby="tab-visitors">
+  <div class="card" style="padding:10px 14px;margin-bottom:10px">
+    <p style="font-size:12px;color:var(--t2);line-height:1.5"><strong>Path to permanent:</strong> Meet cabin requirements → visitor shows up → complete 1 daily quest per visit → reach 5 stars → ask to stay forever. After permanence, cabin can be relocated (region restrictions still apply).</p>
+  </div>
+  <div class="filter-bar" id="vis-filters"></div>
+  <div id="vis-list"></div>
+</section>
+
+<!-- CRAFTING -->
+<section role="tabpanel" id="panel-crafting" class="panel" aria-labelledby="tab-crafting">
+  <div class="card" style="padding:10px 14px;margin-bottom:10px">
+    <p style="font-size:12px;color:var(--t2);line-height:1.5">Mini workbench versions let you place functional stations inside Visitor Cabins. Each has a separate crafting plan unlock. The main stations are fixed on the island; mini/cabin versions are craftable.</p>
+  </div>
+  <div class="sec-head"><div class="sec-line"></div><div class="sec-label">Cooking Stations</div><div class="sec-line"></div></div>
+  <div id="cook-list"></div>
+  <div class="sec-head"><div class="sec-line"></div><div class="sec-label">Crafting & Creation Stations</div><div class="sec-line"></div></div>
+  <div id="craft-list"></div>
+</section>
+
+<!-- FRIENDS -->
+<section role="tabpanel" id="panel-friends" class="panel" aria-labelledby="tab-friends">
+  <div class="sh">Gift Quick Reference</div>
+  <p style="font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.5">Use <strong>Hello Kitty companion (L12+)</strong> for +10% XP on all gifts. Return gifts chain into crafting materials.</p>
+  <div id="gift-list"></div>
+  <div class="sec-head" style="margin-top:4px"><div class="sec-line"></div><div class="sec-label">Companion Activity Matrix</div><div class="sec-line"></div></div>
+  <p style="font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.5">Tap any card to open the companion's full entry below.</p>
+  <div class="matrix" id="matrix"></div>
+  <div class="sec-head"><div class="sec-line"></div><div class="sec-label">Full Companion Roster</div><div class="sec-line"></div></div>
+  <div id="roster"></div>
+</section>
+
+<!-- FLOWERS -->
+<section role="tabpanel" id="panel-flowers" class="panel" aria-labelledby="tab-flowers">
+  <div class="card">
+    <div class="sh" style="margin-bottom:10px">Color Combinations</div>
+    <table class="ftbl"><thead><tr><th>Parents</th><th>Result</th><th>Notes</th></tr></thead><tbody id="ctbl"></tbody></table>
+  </div>
+  <div class="cb-block">
+    <div class="sh" style="color:#7A4800;margin-bottom:9px">Cannot be bred — base colors only</div>
+    <div><span class="pill">🚫 Red</span><span class="pill">🚫 White</span><span class="pill">🚫 Blue</span><span class="pill">🚫 Sky Blue</span><span class="pill">🚫 Hot Pink</span></div>
+    <p style="font-size:12px;color:#6B4228;margin-top:9px;line-height:1.5">These only occur as species base colors. To apply them to another species: same-species ombré crossbreeding chain required.</p>
+  </div>
+  <div class="sh">Advanced Tips</div>
+  <div class="card" id="btips"></div>
+</section>
+
+<!-- SECRETS -->
+<section role="tabpanel" id="panel-secrets" class="panel" aria-labelledby="tab-secrets">
+  <div class="card" style="padding:10px 14px;margin-bottom:10px">
+    <p style="font-size:12px;color:var(--t2);line-height:1.5">Findings from deep research passes — hidden mechanics, recent discoveries, DLC deep dives, and completionist tips. ⭐ = standout discovery.</p>
+  </div>
+  <div id="sec-list"></div>
+</section>
+
+<!-- ORACLE -->
+<section role="tabpanel" id="panel-oracle" class="panel" aria-labelledby="tab-oracle">
+  <div class="on">Late-game HKIA knowledge through early 2025. Powered by Claude — <a href="https://hellokittyislandadventure.wiki.gg" target="_blank" rel="noopener">wiki</a> for very recent updates.</div>
+  <div class="cwin" id="cwin" role="log" aria-live="polite" aria-label="Oracle conversation"></div>
+  <div class="oir">
+    <input type="text" class="oi" id="oi" placeholder="Ask about visitors, crafting, events, companions…" aria-label="Ask the Island Oracle">
+    <button class="osend" id="osend" aria-label="Send" onclick="sendMsg()">Send ✦</button>
+  </div>
+  <div class="slabel">Quick questions:</div>
+  <div class="suggs" id="suggs"></div>
+</section>
+
+<section role="tabpanel" id="panel-planner" class="panel" aria-labelledby="tab-planner">
+
+<div class="plan-wrap">
+
+  <div class="plan-sec-hd">
+    <div class="plan-title">🦊 Retsuko Visitor Chain</div>
+    <div class="plan-sub">Tap quest names to mark complete. Tap stars (●) to set friendship level. Chain auto-unlocks as requirements are met.</div>
+  </div>
+
+  <div class="plan-block-lbl">Quest Gates</div>
+  <div id="plan-quests" class="plan-quests-row"></div>
+
+  <div id="plan-chain" class="plan-chain"></div>
+
+  <div id="plan-route"></div>
+
+  <div class="plan-divider"></div>
+
+  <div class="plan-sec-hd">
+    <div class="plan-title">🎯 Multi-Day Goals</div>
+    <div class="plan-sub">Track daily grinds, event currencies, and long-term unlocks. Tap +/− to log progress. State saves locally.</div>
+  </div>
+
+  <div id="plan-goals"></div>
+
+  <button class="plan-add-btn" onclick="planAddGoal()">+ Add Custom Goal</button>
+
+</div>
+
+</section>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════ DATA ═══
+
+const LOOP=[
+  {n:1,t:'Hello Kitty companion (L12+)',s:'Everyone\'s Friend: +10% XP on all gifts today',k:''},
+  {n:2,t:'Gift every character × 3',s:'3-heart gifts. Use Friendship Blossoms to reset daily limit if needed.',k:''},
+  {n:3,t:'Swap to My Melody companion',s:'Big Smile: bonus return gift from anyone. Maximise material income.',k:''},
+  {n:4,t:'Fwish Fountain — high-rarity fish first',s:'Rarity scales rewards directly. Stack same items for Recycling Plant.',k:''},
+  {n:5,t:'Recycling Plant — 10× same item batches',s:'Coral Keys, Coral Seeds, random dyes. Identical items = best yield.',k:''},
+  {n:6,t:'Badtz-maru — use Gamer free mini-game',s:'1 free game per day (L9). Never skip — always earns useful items.',k:''},
+  {n:7,t:'Cogimyun companion — fertilize all breeding flowers',s:'Magical Girl: pattern chance 1%→5%. Re-fertilize after every bloom.',k:'dlc'},
+  {n:8,t:'Greenhouse — check new spawns',s:'100% spawn rate. Look for ombré developments and new color transfers.',k:''},
+  {n:9,t:'Visitor daily quests',s:'One quest per visit, per visitor. 5 stars → permanent resident offer.',k:''},
+  {n:10,t:'[Monday] Tophat Gudetama hunt',s:'All Tophats available in May (Month of Meh). Otherwise weekly new location.',k:'wk'},
+  {n:11,t:'[Weekly] Spooky Secrets puzzle room',s:'HOST your own island — this does NOT trigger when visiting others\' islands.',k:'wk'},
+];
+
+const BD=[
+  {n:'Hello Kitty',m:11,d:1,e:'🎀'},{n:'Kuromi',m:10,d:31,e:'💜'},
+  {n:'Cinnamoroll',m:3,d:6,e:'☁️'},{n:'My Melody',m:1,d:18,e:'🎵'},
+  {n:'Badtz-Maru',m:4,d:1,e:'🐧'},{n:'Keroppi',m:7,d:10,e:'🐸'},
+];
+
+const EVENTS=[
+  {m:'Feb',n:'Hugs & Hearts',s:'Catch Lovebugs → Hugs & Hearts themed furniture. Required for Macaron\'s cabin.'},
+  {m:'Mar–Apr',n:'Springtime Celebration',s:'Seaside Resort. Runs with Colorblaze Carnival and Happy Haven Days.'},
+  {m:'Mar–Apr',n:'Colorblaze Carnival',s:'Multi-biome (Seaside, Swamp, Gem. Mountain, Hothead). Colorblaze Challenge mini-games.'},
+  {m:'Mar–Apr',n:'Happy Haven Days',s:'Concurrent with Colorblaze Carnival.'},
+  {m:'May',n:'Month of Meh 🌟',s:'ALL past Tophat Gudetama locations available all month. Catch-up window for the year.'},
+  {m:'Jun',n:'Under the Sea Celebration',s:'Rainbow Reef focus.'},
+  {m:'Jul–Aug',n:'Paper Parade',s:'Timing varies. Paper-themed collectibles.'},
+  {m:'Aug–Sep',n:'Sunshine Celebration',s:'Late summer. Summer\'s End furniture drops here — needed for Tam\'s cabin.'},
+  {m:'Sep',n:'Friendship Festival',s:'Seaside Resort focus. Friendship-themed rewards.'},
+  {m:'Sep',n:'Scholastic Celebration',s:'Runs concurrently with Jam Jamboree.'},
+  {m:'Sep',n:'Jam Jamboree',s:'Mid-late September. Currency: Jam Jars. Mini-games across the island.'},
+  {m:'Oct',n:'Spooky Celebration',s:'October. Currency: Spooky Treats. Required furniture for Baku\'s cabin. 71 collectibles.'},
+  {m:'Oct–Nov',n:'Fall Fashion Frenzy',s:'Overlaps with Spooky Celebration.'},
+  {m:'Oct–Nov',n:'Interlude of Dreams',s:'71 collectibles. Bubble-based mechanics.'},
+  {m:'Nov',n:'Days of Plenty',s:'Late November harvest theme.'},
+  {m:'Nov',n:'Give & Gather Celebration',s:'Gift-exchange focused event.'},
+  {m:'Dec–Jan',n:'Lighttime Jubilee',s:'Winter/holiday celebration.'},
+  {m:'Varies',n:'Imagination Celebration',s:'Timing varies by year.'},
+  {m:'Varies',n:'Floral Fashion Frenzy',s:'Flower-themed. Timing varies.'},
+];
+
+const QUEST_CATS=[
+  {icon:'🔵',name:'Island Mystery (Main Story)',desc:'Restoring Big Adventures Park. Biome-by-biome progression from Seaside Resort → Spooky Swamp → Rainbow Reef → Gemstone Mountain → Mount Hothead → Icy Peak → Merry Meadow → Cloud Island → City Town (DLC).'},
+  {icon:'🔴',name:'Friendship Quests',desc:'Per-character at specific friendship levels. These unlock areas, tools, recipes, and visitors. Critical path: Chococat L1 opens crafting; Kuromi L4 opens Haunted Mansion; Hangyodon L11 repairs Espresso Machine.'},
+  {icon:'🔨',name:'The Right Tools',desc:'Unlocks tools: Crystal Sensor, Flippers, Snorkel, Camera, Pickaxe, Net, Bubble Wand, Balloons. Most gated behind story + friendship quest chains.'},
+  {icon:'🟢',name:'Around The Island',desc:'Exploration and collection quests: Gudetama photography, critter collecting, Power Crystal hunts.'},
+  {icon:'🟣',name:'Multiplayer Quests',desc:'Require co-op. Key: Spooky Secrets (weekly new puzzle room — host required). Together Forever unlocks 2-companion mode and Kiki & Lala.'},
+  {icon:'🏠',name:'Visitor Quests',desc:'Unlock after a visitor reaches 5 stars. Some require multiple visitors to be permanent. Family Vacation unlocks after Mimmy + George White + Mary White are all permanent at 5 stars.'},
+  {icon:'🌟',name:'DLC Questlines',desc:'Wheatflour Wonderland: 3 new forges + Wand system + Cogimyun. City Town: 90+ quests, Imagination Café, Usahana 20+ friendship levels, sewers exploration.'},
+];
+
+// VISITORS
+// seasons: 'any' 'spr' 'sum' 'fall' 'win' 'quest' 'dlc'
+const VISITORS=[
+  {id:'dd',n:'Dear Daniel',e:'🎩',fr:'Hello Kitty',s:'any',av:'Anytime',gift:'Mama\'s Apple Pie',reqs:['Seaside Resort near Hello Kitty','Any 3 pieces of furniture'],note:'4★ daily quests unlock when you learn the Red Bow Apple Pie recipe. 5★ quests require HK L15 friendship.'},
+  {id:'mi',n:'Mimmy',e:'🎀',fr:'Hello Kitty',s:'any',av:'Anytime',gift:'Baked goods variety',reqs:['Seaside Resort near Hello Kitty','5 Hello Kitty-themed furniture items','2 bakery/bread food items'],note:'After Mimmy + George + Mary White all reach 5 stars → Family Vacation quest unlocks.'},
+  {id:'gw',n:'George White',e:'👨',fr:'Hello Kitty',s:'any',av:'Anytime (HK L20)',gift:'Woodblock',reqs:['Seaside Resort near Hello Kitty','Hello Kitty friendship Level 20 required'],note:'George and Mary White both become permanent once you invite Mimmy and complete their chains.'},
+  {id:'mw',n:'Mary White',e:'👩',fr:'Hello Kitty',s:'any',av:'Anytime (via George)',gift:'(varies)',reqs:['Becomes available after George White is a permanent resident'],note:''},
+  {id:'hkg',n:'HK\'s Grandma',e:'👵',fr:'Hello Kitty',s:'any',av:'Anytime (HK L25)',gift:'Ribbon',reqs:['Seaside Resort near Hello Kitty','Hello Kitty friendship Level 25 required','3 art supplies, 1 apple, 1 bed, 2 chairs, 2 bookshelves'],note:'Grandpa requires Grandma to be a resident first. Both needed for Kyorosuke.'},
+  {id:'hkgp',n:'HK\'s Grandpa',e:'👴',fr:'Hello Kitty',s:'any',av:'Anytime (Grandma first)',gift:'Dreamy Star',reqs:['Seaside Resort near Hello Kitty','HK\'s Grandma must be a permanent resident','3 art supplies, 1 apple, 1 bed, 2 chairs, 2 bookshelves'],note:''},
+  {id:'ky',n:'Kyorosuke',e:'🐱',fr:'Hello Kitty',s:'any',av:'Anytime (Grandma first)',gift:'(varies)',reqs:['Seaside Resort near Hello Kitty','HK\'s Grandma must be a resident','3 art supplies, 1 apple, 1 bed, 2 chairs, 2 bookshelves'],note:''},
+  {id:'az',n:'Azuki',e:'☕',fr:'Cinnamoroll',s:'any',av:'Anytime',gift:'Chocolate Chai',reqs:['ALL 13 Yummy furniture set items (exact set — not generic yummy-tagged items)'],note:'Straightforward requirements. Yummy tag covers most food-related furniture.'},
+  {id:'cap',n:'Cappuccino',e:'🐾',fr:'Cinnamoroll',s:'any',av:'Every 4 weeks',gift:'Hot Cocoa',reqs:['2 bakery food items','2 Cozy Beverage items','2 pizza food items'],note:'Food items count toward requirements.'},
+  {id:'ch',n:'Chiffon',e:'🐻',fr:'Cinnamoroll',s:'any',av:'Every 4 weeks',gift:'Mocha',reqs:['Coastal Decorative Plant (from Seaside Resort — exact item)','Spooky Lounge Sofa (from Spooky Swamp — exact item)','Rustic Bookcase (exact item)'],note:'Requires 4 exact named items — no substitutions. Check Visitors app for exact names.'},
+  {id:'esp',n:'Espresso',e:'📚',fr:'Cinnamoroll',s:'any',av:'Every 4 weeks',gift:'Hot Cocoa',reqs:['3 Music items','3 Bookcase furniture'],note:''},
+  {id:'cor',n:'Corune',e:'⭐',fr:'Cinnamoroll',s:'quest',av:'Every 4 weeks (quest)',gift:'Corune Capsule',reqs:['Cloud Island ONLY (can never leave Cloud Island)','Poron must be a permanent 5★ resident','Starfall wallpaper (exact item)','Rare Candle (exact item)','Sweet Dreams Stories (exact item)','Dreamy Star (exact item)'],note:'Unlocks after completing "Hither and Yon" quest. Poron must be permanent FIRST — do Poron before Corune. Both must be 5★ permanent to unlock Milk.'},
+  {id:'mmg',n:'MM\'s Grandma',e:'👵',fr:'My Melody',s:'any',av:'Anytime',gift:'(varies)',reqs:['Seaside Resort near My Melody','3 baked/bread items','3 creative items','3 cottage items'],note:'Items can overlap categories to meet multiple requirements.'},
+  {id:'mmgp',n:'MM\'s Grandpa',e:'👴',fr:'My Melody',s:'any',av:'Anytime',gift:'(varies)',reqs:['Seaside Resort near My Melody','3 metal items','3 Gemstone Mountain or Mount Hothead region items (critters work!)'],note:''},
+  {id:'mmma',n:'MM\'s Mama',e:'🩷',fr:'My Melody',s:'any',av:'Anytime',gift:'(varies)',reqs:['Seaside Resort near My Melody','3 pink items','3 sweet items','3 cottage items'],note:'Items can overlap — e.g. a pink sweet cottage item satisfies all three.'},
+  {id:'mmpa',n:'MM\'s Papa',e:'🌿',fr:'My Melody',s:'any',av:'Anytime',gift:'(varies)',reqs:['Seaside Resort near My Melody','3 healthy items','3 plant items'],note:'Food items count as healthy in many cases.'},
+  {id:'pa',n:'Pam',e:'🐧',fr:'Tuxedosam',s:'sum',av:'Summer & Winter',gift:'Fabric',reqs:['Seaside Resort or Cozy Islands near Tuxedosam','5 Fwish fountain furniture items','1 Clothing Stand with clothing on display','2 aquariums with fish inside'],note:'Fwish furniture obtained from the Fwish Fountain (donate fish).'},
+  {id:'ta',n:'Tam',e:'🐧',fr:'Tuxedosam',s:'sum',av:'Summer & Winter',gift:'Fabric',reqs:['Seaside Resort or Cozy Islands near Tuxedosam','1 Summer\'s End furniture item (from Sunshine Celebration event)','5 Clothing Stands each with clothing displayed'],note:'Summer\'s End furniture only available during the Sunshine Celebration event (late summer).'},
+  {id:'ppm',n:'PP\'s Mama',e:'🍮',fr:'Pompompurin',s:'any',av:'Anytime',gift:'(varies)',reqs:['Gemstone Mountain near Pompompurin','5 kitchen items','1 Mama\'s Pudding (exact item)'],note:''},
+  {id:'ppp',n:'PP\'s Papa',e:'🍮',fr:'Pompompurin',s:'any',av:'Anytime',gift:'(varies)',reqs:['Gemstone Mountain near Pompompurin','3 antique items','1 Magma Pudding, 1 Pumpkin Pudding, 1 Purple Pudding (exact items)'],note:''},
+  {id:'mac',n:'Macaron',e:'🐩',fr:'Pompompurin',s:'spr',av:'Spring only (anytime in Mar–May)',gift:'Pink Clouds Ice Cream',reqs:['Gemstone Mountain near Pompompurin','5 Hugs & Hearts furniture items (from Feb event)','1 Sakura Pudding'],note:'Hugs & Hearts items are February event drops — stock up! Macaron at 5★ unlocks "Sweets for the Sweetest" quest.'},
+  {id:'ba',n:'Baku',e:'🦁',fr:'Kuromi',s:'fall',av:'Fall only (anytime in Sep–Nov)',gift:'Pumpkin Spice Soda',reqs:['Spooky Swamp near Kuromi','5 Spooky Celebration furniture items (from October event)'],note:'Spooky Celebration items only available during October event. Stock up during the event.'},
+  {id:'be',n:'Berry',e:'😈',fr:'Kuromi',s:'fall',av:'Fall (every 2 weeks)',gift:'Jack-O-Lantern',reqs:['3 joke items in cabin','5 spooky items in cabin','2 sweet items in cabin'],note:'Food counts for all tag requirements. Berry and Cherry visit alternate weeks.'},
+  {id:'che',n:'Cherry',e:'😈',fr:'Kuromi',s:'fall',av:'Fall (every 2 weeks, alt. weeks)',gift:'Pink Clouds Ice Cream',reqs:['3 fancy items in cabin','5 spooky items in cabin','2 pink items in cabin'],note:'Visits alternate weeks with Berry. Food counts for tags.'},
+  {id:'nu',n:'Nuts',e:'🥥',fr:'Cinnamoroll',s:'spr',av:'Spring & Fall (weekly)',gift:'Coconut',reqs:['3 kawaii-themed furniture items','1 Coconut placed in cabin','1 Toasted Almond placed in cabin'],note:'Nuts + Coco needed at 5★ to unlock "Cinna-Run-Around" and "Cafe Cinnamon Unite" quests.'},
+  {id:'co',n:'Coco',e:'🥥',fr:'Cinnamoroll',s:'sum',av:'Summer & Winter (weekly)',gift:'Coconut',reqs:['Complete quest: Little Friendship from Cafe Cinnamon','3 bookshelves (any type)','1 Coconut and 1 Chocolate Coin in cabin'],note:''},
+  {id:'ca',n:'Carl',e:'🏈',fr:'Pekkle',s:'any',av:'Anytime (Pekkle L8)',gift:'Egg',reqs:['Pekkle friendship Level 8 required','Cabin region: near Pekkle in Gemstone Mountain'],note:''},
+  {id:'ru',n:'Ruby',e:'💎',fr:'Pekkle',s:'any',av:'Anytime',gift:'(varies)',reqs:['Gemstone Mountain near Pekkle','check wiki for full requirements'],note:''},
+  {id:'fe',n:'Fenneko',e:'🦊',fr:'Retsuko',s:'quest',av:'Every 2 weeks (quest)',gift:'Iron',reqs:['Complete quest: Everything Is Fine (Retsuko questline)'],note:''},
+  {id:'ha',n:'Haida',e:'🦊',fr:'Retsuko',s:'quest',av:'Every 2 weeks (quest)',gift:'Cinna Bloom',reqs:['Complete quest: Helping Haida (Retsuko questline)'],note:''},
+  {id:'go',n:'Gori',e:'🦍',fr:'Retsuko',s:'quest',av:'Every 2 weeks (quest)',gift:'Dray Dye',reqs:['Complete quest: A Ton of Shadows (Retsuko questline)'],note:''},
+  {id:'ga',n:'Ganta',e:'🐸',fr:'Keroppi',s:'quest',av:'Spring & Fall (quest)',gift:'Stick',reqs:['Complete quest: Rain or Shine (Keroppi questline)'],note:'Rain or Shine also unlocks Noberun.'},
+  {id:'no',n:'Noberun',e:'🐸',fr:'Keroppi',s:'quest',av:'Spring & Fall (quest)',gift:'Blank Book',reqs:['Complete quest: Rain or Shine (Keroppi questline)','Cabin in Spooky Swamp near Keroppi'],note:'Unlocks alongside Ganta after Rain or Shine quest.'},
+  {id:'ar',n:'Aro',e:'🕯️',fr:'Wish me mell',s:'any',av:'Anytime',gift:'Beeswax',reqs:['Merry Meadow near Wish me mell','1 Blue Candle and 1 White Candle placed in cabin'],note:''},
+  {id:'lo',n:'Lou',e:'🌺',fr:'Wish me mell',s:'quest',av:'Anytime (quest)',gift:'Colorblaze furniture',reqs:['Complete quest: A Long Awaited Introduction','Merry Meadow','2 plant items','1 Island Challenge Trophy','1 Pochacco Energy Pop'],note:''},
+  {id:'bu',n:'Buppi',e:'🐰',fr:'Usahana',s:'dlc',av:'Every 5 weeks (DLC)',gift:'Triple Frosty Dango',reqs:['Complete quest: Into the Fog (City Town DLC)','City Town cabin location'],note:'City Town DLC visitors have separate cabin crate requirements. Check wiki — schedule in flux after v2.14.'},
+  {id:'pn',n:'Panya / Wanwa / Sora / Nyako',e:'🏙️',fr:'Usahana',s:'dlc',av:'City Town DLC (various)',gift:'(varies)',reqs:['City Town DLC required','Individual requirements — check wiki.gg after v2.14 update'],note:'Four additional City Town visitors added with City Town DLC. Wiki flagged their schedule for update.'},
+
+  // Cinnamoroll chain (unlock Milk)
+  {id:'mo',n:'Mocha',e:'🐶',fr:'Cinnamoroll',s:'any',av:'Every 4 weeks',gift:'Mocha',reqs:['2 Cozy Beverage items','5 clothing on display (Clothing Stands)'],note:'Can change outfit! Mocha\'s mirror quest: press Confirm immediately without actually changing clothes. Unlocks Milk chain.'},
+  {id:'es',n:'Espresso',e:'📚',fr:'Cinnamoroll',s:'any',av:'Every 4 weeks',gift:'Hot Cocoa',reqs:['3 Music items','3 Bookcase furniture'],note:'Can change outfit! Unlocks Milk chain.'},
+  // Poron → Corune → Milk chain
+  {id:'po',n:'Poron',e:'🐾',fr:'Cinnamoroll',s:'any',av:'Every 2 weeks',gift:'Time Capsule',reqs:['1 Lighttime Jubilee clothing item','1 Hugs & Hearts clothing item','1 Colorblaze Carnival clothing item (pre-2026 ONLY — 2026 items do NOT count)','1 Month of Meh clothing item'],note:'All items must be on Clothing Stands. Flower Crowns from event flowers do NOT count. Can change outfit. Unlocks Corune.'},
+  {id:'mi2',n:'Milk',e:'🍼',fr:'Cinnamoroll',s:'quest',av:'Anytime (quest chain)',gift:'Cinnamoroll Box',reqs:['Cinnamoroll friendship Level 20','5 Kawaii furniture','1 Coral Milk (exact item)','1 Dreamy Lamb Plush (exact item)'],note:'⚠️ REQUIRES 9 visitors all at 5★ permanent first: Poron, Corune, Espresso, Azuki, Chiffon, Coco, Nuts, Mocha, Cappuccino. Then complete "Time for Milk" quest series. After "Milk?" quest: Milk collects ALL daily Island Visitor gifts every day!'},
+  // Retsuko crew
+  {id:'rm',n:'Retsuko\'s Mom',e:'🦊',fr:'Retsuko',s:'any',av:'Anytime (Haida 5★)',gift:'Tofu Bread',reqs:['Mount Hothead near Retsuko','1 Pillow furniture'],note:'Unlock requires Haida to be a 5★ permanent resident. Liked tag: Metal.'},
+  {id:'ts',n:'Tsunoda',e:'🦊',fr:'Retsuko',s:'any',av:'Every 2 weeks',gift:'Seashell',reqs:['Mount Hothead near Retsuko','8 Mirror furniture','4 Lamp furniture','1 Pillow furniture','1 Table furniture','2 Chair furniture'],note:'Unlock requires BOTH Gori AND Washimi as 5★ permanent residents. Liked tag: Sweet.'},
+  {id:'pu',n:'Puko',e:'🦊',fr:'Retsuko',s:'quest',av:'Every 2 weeks (quest)',gift:'Espresso',reqs:['Mount Hothead near Retsuko (NOTE: Table requirement removed in Update 2.13)'],note:'Complete "Everything is Fine" quest. Liked tag: Relax.'},
+  {id:'ck',n:'Chief Komiya',e:'👔',fr:'Retsuko',s:'quest',av:'Every 2 weeks (quest)',gift:'Coconut',reqs:['Mount Hothead near Retsuko','2 Computers','1 Pillow furniture','4 Chair furniture','1 Table furniture','4 Box furniture'],note:'Complete "Subtract and Distract" quest. Liked tag: Device. Update 2.11.'},
+  // LittleTwinStars crew
+  {id:'ku',n:'Kuma',e:'🐻',fr:'LittleTwinStars',s:'quest',av:'Every 2 weeks (quest)',gift:'Star',reqs:['Cloud Island near Kiki and Lala','1 Pillow furniture','4 Lamp furniture','1 Plant furniture','6 Dreamy furniture','Dreamy Star (exact item)'],note:'Complete "Friends from the Stars" quest + Kiki/Lala friendship L10. Liked tag: Cloud.'},
+  {id:'ne',n:'Neko',e:'🐱',fr:'LittleTwinStars',s:'quest',av:'Every 2 weeks (quest)',gift:'Moon Cheese',reqs:['Cloud Island near Kiki and Lala','1 Pillow furniture','4 Lamp furniture','1 Bookcase furniture','6 Dreamy furniture','Dreamy Souvenir Doll (exact item)'],note:'Same quest as Kuma: "Friends from the Stars" + Kiki/Lala L10. Liked tag: Cloud.'},
+  // Hangyodon crew (Update 2.16 - very recent!)
+  {id:'it',n:'Itaro',e:'🌊',fr:'Hangyodon',s:'quest',av:'Periodic (quest)',gift:'Box Clam',reqs:['Rainbow Reef near Hangyodon','1 Pillow furniture','8 Bookcase furniture','3 Chair furniture','1 Purple Latte (exact item)'],note:'Added in Update 2.16 (May 2026). Quest unlock TBD — check wiki. Liked tag: Book.'},
+  // Wish me mell crew
+  {id:'pc',n:'Poco',e:'🐇',fr:'Wish me mell',s:'quest',av:'Anytime (quest)',gift:'Pink Candle',reqs:['Merry Meadow near Wish me mell','(quest: "A Long Awaited Introduction")'],note:'Poco becoming permanent unlocks: Gemstone Mountain flower plots (Thistles) + the Greenhouse. Critical unlock for late-game flower farming!'},
+  {id:'ro',n:'Roseanne',e:'🌹',fr:'Wish me mell',s:'quest',av:'Anytime (quest)',gift:'(varies)',reqs:['Merry Meadow near Wish me mell','Aro must be a permanent resident first','6 Dreamy furniture','1 Pink Cloud (exact item)','1 Sweet Cloud (exact item)'],note:'Can change outfit. Liked tag: Creative.'},
+  {id:'ni',n:'Nina',e:'🌷',fr:'Wish me mell',s:'quest',av:'Anytime (quest)',gift:'(varies)',reqs:['Merry Meadow near Wish me mell','Poco must be a permanent resident first','1 Molten Frappe (exact item)','1 Spooky Celebration furniture','1 Give & Gather furniture','1 Luck & Lanterns Celebration furniture','1 Springtime Celebration furniture','1 Imagination Celebration furniture'],note:'6 event furniture items required — one from 6 different annual events. Can change outfit. Nina becoming permanent unlocks Moon flower plots (with "A Finishing Flourish" quest).'},
+
+  // Retsuko's Mount Hothead Crew
+  {id:'rm',n:"Retsuko\'s Mom",e:'🦊',fr:'Retsuko',s:'quest',av:'Anytime (Haida 5★)',gift:'Tofu Bread',reqs:['Mount Hothead near Retsuko','Haida must be 5★ permanent resident','1 pillow, 2 chairs, 1 table, 1 mirror'],note:'Update 2.6. Unlocks Retsuko\'s Mom as companion.'},
+  {id:'pk',n:'Puko',e:'🦊',fr:'Retsuko',s:'quest',av:'Every 2 weeks ("Everything Is Fine")',gift:'Espresso',reqs:['Mount Hothead near Retsuko','Complete "Everything Is Fine" quest','Note: Table requirement removed in update v2.13'],note:'Update 2.5. Puko at 5★ unlocks Manaka, Migi, and Hidarin.'},
+  {id:'wa',n:'Washimi',e:'🦅',fr:'Retsuko',s:'quest',av:'Every 2 weeks ("A Ton of Shadows")',gift:'White Dye ×5',reqs:['Mount Hothead near Retsuko','Complete "A Ton of Shadows" quest (also unlocks Gori)'],note:'Update 2.4. Washimi + Gori both 5★ → unlocks Tsunoda.'},
+  {id:'ka',n:'Kabae',e:'🦊',fr:'Retsuko',s:'quest',av:'Every 2 weeks (Tsunoda 5★)',gift:'Spark',reqs:['Mount Hothead near Retsuko','Tsunoda must be 5★ permanent resident','4 Home Essentials furniture, 1 pillow, 4 chairs, 1 table, 2 box furniture, 1 mirror, 1 Candied Banana Coffee'],note:'One of the most demanding Retsuko visitor chains.'},
+  {id:'ts',n:'Tsunoda',e:'📱',fr:'Retsuko',s:'quest',av:'Every 2 weeks (Gori + Washimi both 5★)',gift:'Seashell',reqs:['Mount Hothead near Retsuko','Gori AND Washimi both 5★ permanent','8 mirrors, 4 lamps, 1 pillow, 1 table, 2 chairs'],note:'Liked tag: Sweet. Update 2.7. Social media expert.'},
+  {id:'ck',n:'Chief Komiya',e:'👔',fr:'Retsuko',s:'quest',av:'Every 2 weeks ("Subtract and Distract")',gift:'Coconut',reqs:['Mount Hothead near Retsuko','Complete "Subtract and Distract" quest','2 Computers, 1 pillow, 4 chairs, 1 table, 4 box furniture'],note:'Liked tag: Device.'},
+  {id:'yi',n:'Yoga Instructor',e:'🧘',fr:'Retsuko',s:'quest',av:'Every 3 weeks ("Location Scouting")',gift:'Protein Omelet',reqs:['Mount Hothead near Retsuko','Complete "Location Scouting" quest'],note:'Update 2.13. Unlocks Yoga Mat item. "The power of PROTEIN!"'},
+  {id:'mn',n:'Manaka',e:'🎤',fr:'Retsuko',s:'quest',av:'Every 4 weeks (Puko 5★)',gift:'Paper',reqs:['Mount Hothead near Retsuko','Puko must be 5★ permanent','8 Music items, 1 pillow, 1 mirror, 1 Clothing Stand with Ice Cream Elegant Dress, 1 Espresso Machine'],note:'Liked tag: Pink. Manaka at 5★ unlocks Migi and Hidarin.'},
+  {id:'mi2',n:'Migi',e:'🎤',fr:'Retsuko',s:'sum',av:'Summer & Winter (Manaka permanent)',gift:'Calming Crystal',reqs:['Mount Hothead near Retsuko','Puko 5★ + Manaka as permanent resident','5 Music items, 1 pillow, 1 mirror, 4 chairs'],note:'OTMGirls member. Visits Summer & Winter only.'},
+  {id:'hi',n:'Hidarin',e:'🎤',fr:'Retsuko',s:'spr',av:'Spring & Fall (Manaka permanent)',gift:'Fabric',reqs:['Mount Hothead near Retsuko','Puko 5★ + Manaka as permanent resident','5 Music items, 1 pillow, 1 mirror, 2 chairs'],note:'OTMGirls member. Visits Spring & Fall only. Migi and Hidarin same cabin setup minus 2 chairs difference.'},
+  // Keroppi's Swamp Crew
+  {id:'ko',n:'Koroppi',e:'🐸',fr:'Keroppi',s:'quest',av:'Anytime ("Fond Pond")',gift:'Woodblock',reqs:['Spooky Swamp near Keroppi','Complete "Fond Pond" quest','3 Critter furniture, 2 chairs, 2 Device items, 1 Critter Totem'],note:'Liked tag: Swampy. Keroppi\'s younger triplet brother. Unlocks Koroppi + Pikki as companions.'},
+  {id:'pi2',n:'Pikki',e:'🐸',fr:'Keroppi',s:'quest',av:'Anytime ("Fond Pond")',gift:'(varies)',reqs:['Spooky Swamp near Keroppi','Complete "Fond Pond" quest (same as Koroppi)','3 Critter furniture, 2 Plant furniture, 2 Terrariums, 1 Eruptoad'],note:'Liked tag: Plant. Keroppi\'s triplet sister. Req already includes 2 liked-tag items.'},
+  // Cinnamoroll Crew
+  {id:'mo2',n:'Mocha',e:'☕',fr:'Cinnamoroll',s:'any',av:'Every 4 weeks',gift:'Candied Banana Coffee',reqs:['2 Cozy Beverage items','5 clothing articles on display (Clothing Stands)'],note:'Liked tag: Chocolate. Cinnamoangels member.'},
+  {id:'ml',n:'Milk',e:'🐾',fr:'Cinnamoroll',s:'quest',av:'Anytime ("Time for Milk" series)',gift:'Cinnamoroll Box',reqs:['Complete "Time for Milk" quest series','Cinnamoroll friendship Level 20','5 Kawaii furniture pieces','1 Coral Milk (exact item)','1 Dreamy Lamb Plush (exact item)'],note:'Intentionally the hardest visitor to unlock. Community ran "Where IS Milk?" meme before his addition. Can change Milk\'s outfit! Liked tag: Cozy Beverage.'},
+  {id:'pr',n:'Poron',e:'🐾',fr:'Cinnamoroll',s:'quest',av:'Every 2 weeks ("A Gift for Cinnamoroll")',gift:'Time Capsule',reqs:['Complete "A Gift for Cinnamoroll" quest'],note:'A mysterious time-traveler dog. Friends with Corune.'},
+  // Hangyodon Crew
+  {id:'it',n:'Itaro',e:'🐠',fr:'Hangyodon',s:'quest',av:'Rainbow Reef (quest TBD)',gift:'Box Clam',reqs:['Rainbow Reef near Hangyodon','1 pillow, 8 Bookcase furniture, 3 chairs, 1 Purple Latte'],note:'Apple Arcade only — not yet on other platforms. Liked tag: Book. Quest name not yet confirmed on wiki.'},
+  // City Town DLC visitors (confirmed)
+  {id:'pa2',n:'Panya',e:'🐰',fr:'Usahana',s:'dlc',av:'City Town DLC',gift:'Sweet Mochi',reqs:['City Town near Usahana','3 Pirate furniture, 1 Sakura Mochi, 1 Sakura Frappe, 1 pillow, 2 chairs'],note:'Liked tag: Mochi.'},
+  {id:'ny',n:'Nyako',e:'🐱',fr:'Usahana',s:'dlc',av:'Every 5 weeks (City Town DLC)',gift:'Sweet Pineapple Tea No Boba',reqs:['City Town near Usahana','Complete "Tea Time" quest + Boba recipe unlocked','1 Very Sweet Starry Boba Tea, 4 Tropical furniture, 1 Magical Onigiri'],note:'Liked tag: Tea. IMPORTANT: Dreamy furniture must be from the exact Dreamy Furniture SET — dreamy-tagged items from other sets do not count.'},
+  {id:'sr',n:'Sora',e:'🌟',fr:'Usahana',s:'dlc',av:'City Town DLC (schedule varies)',gift:'Unsweetened Starry Boba Tea',reqs:['City Town near Usahana','1 Unsweetened Starry Boba Tea, 1 pillow, 5 Dreamy furniture'],note:'Liked tag: Tea.'},
+
+  // Moppu's Snow Village Crew (Icy Peak — added Dec 2025)
+  {id:'aj',n:'Ajimaru',e:'🐟',fr:'Moppu',s:'any',av:'Anytime (Snow Village)',gift:'Chips',reqs:['Snow Village near Moppu','8 Icy Peak items','1 pillow furniture','1 table furniture','2 chairs','1 Apple Crisps (exact item)','1 Banana Crisps (exact item)'],note:'Liked tag: Pizza — add pizza items to raise hearts. Unlocks Ajimaru as Companion.'},
+  {id:'gy',n:'Gyoniku',e:'🐟',fr:'Moppu',s:'any',av:'Anytime (Snow Village)',gift:'Chips',reqs:['Snow Village near Moppu','4 Icy Peak items','2 snow items','1 pillow furniture','4 chairs','1 Brrr Bear Blast (exact item)','1 rug'],note:'Liked tag: Pillow. Req already includes 1 liked tag item.'},
+  {id:'kk',n:'Kanikama',e:'🦀',fr:'Moppu',s:'any',av:'Anytime (Snow Village)',gift:'Chips',reqs:['Snow Village near Moppu','4 Icy Peak items','2 snow items','1 pillow furniture','4 chairs','1 Gaming TV (exact item)','1 rug'],note:'Liked tag: Pillow. Unlock with Gyoniku — both need same Snow Village setup minus the exact named items.'},
+  {id:'ma',n:'Mashu',e:'🐾',fr:'Moppu',s:'any',av:'Anytime (Snow Village)',gift:'Chips',reqs:['Snow Village near Moppu','8 Icy Peak items','1 pillow furniture','2 chairs','3 Clothing Stands with hats displayed','1 Hot Cocoa'],note:'Liked tag: Cloth. Can change Mashu\'s outfit — select "Will you change outfits?" when she visits!'},
+
+  // LittleTwinStars Cloud Visitors
+  {id:'ku',n:'Kuma',e:'🐻',fr:'Kiki & Lala',s:'quest',av:'Every 2 weeks ("Friends from the Stars")',gift:'Star',reqs:['Cloud Island near Kiki and Lala','Complete "Friends from the Stars" quest (Kiki + Lala both L10)','1 pillow, 4 lamps, 1 plant furniture, 6 Dreamy furniture (exact set), 1 Dreamy Star'],note:'Liked tag: Cloud. "Friends from the Stars" also requires completing: Starry Treasures, Cloud Cabins, Star Fish, and Friendship Never Fades quests. Kuma translates to bear in Japanese — not officially named by Sanrio.'},
+  {id:'ne',n:'Neko',e:'🐱',fr:'Kiki & Lala',s:'quest',av:'Every 2 weeks ("Friends from the Stars")',gift:'Moon Cheese',reqs:['Cloud Island near Kiki and Lala','Complete "Friends from the Stars" quest (same as Kuma)','1 pillow, 4 lamps, 1 bookcase, 6 Dreamy furniture (exact set), 1 Dreamy Souvenir Doll'],note:'Liked tag: Cloud. Neko = cat in Japanese. Both Kuma and Neko are unnamed cloud-animal friends of the LittleTwinStars.'},
+  // Pekkle Crew
+  {id:'rb',n:'Ruby',e:'💎',fr:'Pekkle',s:'any',av:'Anytime (Pekkle L8)',gift:'(varies)',reqs:['Gemstone Mountain near Pekkle','Pekkle friendship Level 8 required','Check wiki.gg/Ruby for exact cabin requirements'],note:'Promo art 2026 shows Ruby dancing with Pekkle and Carl.'},
+  // City Town DLC — Confirmed Additional
+  {id:'wn',n:'Wanwa',e:'🐶',fr:'Usahana',s:'dlc',av:'Every 5 weeks (City Town DLC)',gift:'Triple Spicy Dango',reqs:['City Town near Usahana','Complete "Into the Fog" quest','1 Triple Spicy Dango (craft: Stick + 3 Spicy Mochi at Chef\'s Station)','2 Flower items, 1 box furniture, 5 Rustic Furniture set items (exact Rustic set only)'],note:'Liked tag: Spice. Can change Wanwa\'s outfit! Same unlock as Buppi/Nyako/Sora.'},
+];
+
+// COOKING STATIONS
+const COOK=[
+  {id:'ov', n:'Oven', i:'🍞', loc:'Hello Kitty\'s Café, Seaside Resort', unlock:'Power Up the Gate quest (Chococat L1)', base:'Flour (My Melody\'s return gift)', upg:'Already has full capability', comp:'Hello Kitty (50% extra food)', recipes:'47 recipes', mini:'Mini Oven: check wiki for unlock quest'},
+  {id:'pi', n:'Pizza Oven', i:'🍕', loc:'Mount Hothead (east of fast-travel point)', unlock:'Reach Mount Hothead (automatic access)', base:'Dough (Retsuko\'s return gift)', upg:'Retsuko L9 → 2 extra ingredients', comp:'—', recipes:'21+ recipes', mini:'Cabin version plans: Retsuko L15 friendship'},
+  {id:'esp', n:'Espresso Machine', i:'☕', loc:'Comedy Club, Rainbow Reef + Hello Kitty\'s Café (after repair)', unlock:'Reach Rainbow Reef with Snorkel. Second machine: "Espresso Machine Repair" (Hangyodon L11)', base:'Candlenut (Hangyodon\'s return gift)', upg:'Hangyodon L4 → 2 extra ingredients', comp:'—', recipes:'23 recipes', mini:'check wiki'},
+  {id:'so', n:'Soda Machine', i:'🧃', loc:'Gemstone Town, Gemstone Mountain', unlock:'"Parched" quest (Keroppi questline)', base:'Fizzy Crystals', upg:'Pekkle L6 → 2 extra ingredients', comp:'—', recipes:'19 recipes', mini:'check wiki'},
+  {id:'de', n:'Dessert Machine', i:'🍨', loc:'Pompompurin\'s Dessert Boat, Gemstone Mountain', unlock:'Pompompurin L4 ("Dessert-ed Boat" quest)', base:'Cactus Cream (grows on cacti near boat)', upg:'Pompompurin L13 → 2 extra ingredients', comp:'—', recipes:'33 recipes', mini:'check wiki'},
+  {id:'eg', n:'Egg Pan Station', i:'🍳', loc:'Rockadoodler Corral, High Desert, Gemstone Mountain', unlock:'Pekkle L8 + "An Egg-cellent Pan" quest. Each station: 5 Sparks, 10 Ingots, 100 Eggs.', base:'Eggs (from Rockadoodler Roundup mini-game)', upg:'102 total Gudetama photos → 2 extra ingredients', comp:'—', recipes:'23 recipes', mini:'Craft own station with above materials'},
+  {id:'ca', n:'Cauldron', i:'🧪', loc:'Witch\'s Hut, Spooky Swamp', unlock:'Kuromi L8 + "Potion Hunt: The Opening" quest', base:'Glow Berry', upg:'No upgrade (5 recipes only)', comp:'Kuromi (Witchcraft: longer potion duration)', recipes:'5 potions: Deep Diving, Speedy Swimming, Speedy Walking, Stamina Recharge, Thermal', mini:'No mini version'},
+  {id:'vm', n:'Vending Machine', i:'🎰', loc:'Moppu\'s Cave, Snow Village, Icy Peak', unlock:'"Snacks\'n\'Sweets" quest (reach Icy Peak area)', base:'Chips (Moppu\'s return gift)', upg:'Moppu L16 → 2 extra ingredients', comp:'—', recipes:'Check wiki for full list', mini:'Mini Vending Machine plans: "Vend Diagram" quest'},
+  {id:'cc', n:'Candy Cloud Machine', i:'🍬', loc:'Cloud Island, upper eastern island (take Cloud Transport from Cloud Island Plaza)', unlock:'Lala L2 + "Sweets in the Stars" quest (give Kiki 3 Starfruit to fix Cloud Transport)', base:'Candy Cloud (Cinnamoroll\'s return gift)', upg:'Kiki L5 → 2 extra ingredients', comp:'—', recipes:'13 recipes', mini:'Cabin version plans: Lala L13. Mini Candy Cloud Machine: "Sweet Skies" quest'},
+  {id:'ic', n:'Imagination Café (City Town)', i:'🏙️', loc:'City Town (DLC)', unlock:'City Town DLC + City Keys currency', base:'City Keys earned by serving Sanrio friends', upg:'Café levels 1–30+', comp:'—', recipes:'City Town DLC exclusive recipes', mini:'N/A — DLC exclusive'},
+];
+
+// CRAFTING / CREATION STATIONS
+const CRAFT=[
+  {id:'cb', n:'Crafting Bench / Table', i:'🔨', loc:'Seaside Resort (near Chococat\'s tent) + Gemstone Town', unlock:'Power Up the Gate quest. Crafts furniture, clothing, tools, materials.', mini:'Full Bench: "Bring Your Own Bench" quest (Chococat L15 / Best Friends)\nMini Bench: "High Tech Tangle" quest', comp:'Chococat (Master Crafter: 30% extra item). Cogimyun (Fall Apart: ingredient refund — DLC)', note:'Two fixed benches on Friendship Island. Craft your own for Visitor Cabins.'},
+  {id:'cs', n:'Creation Station', i:'🎨', loc:'Merry Meadow, near Critter Corral', unlock:'"A Place to Art" quest (Wish me mell questline)', mini:'check wiki', comp:'Cogimyun (Fall Apart: ingredient refund — DLC)', note:'Makes candles, bows, flower crowns, fishing lures, and more. Flexible ingredients — accepts any flower type/color when requiring "a flower".'},
+  {id:'cf', n:'Craft Forge (DLC)', i:'⚗️', loc:'Crafting Court, Wheatflour Wonderland', unlock:'"The Art of Science" quest (Wheatflour Wonderland DLC)', mini:'Plans from "Wands for Everyone!" quest', comp:'Same bonuses as Crafting Bench', note:'Functionally identical to Crafting Bench. Unique to Wheatflour Wonderland.'},
+  {id:'crf', n:'Creation Forge (DLC)', i:'🌿', loc:'Crafting Court, Wheatflour Wonderland', unlock:'"A Heart of Grain" quest (Wheatflour Wonderland DLC)', mini:'Plans from "Wands for Everyone!" quest', comp:'Same bonuses as Creation Station', note:'Functionally identical to Creation Station. Same flexible ingredient rules apply.'},
+  {id:'wf', n:'Wand Forge (DLC)', i:'🪄', loc:'Crafting Court, Wheatflour Wonderland', unlock:'"Making Friends" quest (Wheatflour Wonderland DLC)', mini:'Plans from "Wands for Everyone!" quest', comp:'Cogimyun (Fall Apart: refund — DLC)', note:'Creates wands using flexible ingredients (any critter works for Critter Wand, etc.). Wheatflour Wonderland exclusive.'},
+  {id:'fc', n:'Furniture Customizer', i:'🛋️', loc:'check wiki for exact location', unlock:'Unlocked via story progression', mini:'N/A', comp:'My Sweet Piano (Master Interior Designer: cost refund)', note:'Customize and recolor owned furniture using dyes.'},
+];
+
+// GIFTS
+const GIFTS=[
+  {id:'hk',n:'Hello Kitty',e:'🎀',three:'Red Bow Apple Pie',alt:'Candied Banana Coffee (2♥)',ret:'Tofu',chain:'Tofu → Tofu Bread → 1♥ gift for Pochacco'},
+  {id:'mm',n:'My Melody',e:'🎵',three:'Pink Clouds Ice Cream',alt:'Almond Pound Cake (2♥)',ret:'Flour',chain:'Flour → Oven base ingredient for most baked goods'},
+  {id:'pc',n:'Pochacco',e:'⚽',three:'Pochacco Energy Pop',alt:'Everything Pizza (2♥)',ret:'Strawberries',chain:'Strawberries → Cabin crate cost (cheaper with My Melody companion)'},
+  {id:'ku',n:'Kuromi',e:'💜',three:'Pumpkin Spice Soda',alt:'Spooky Cake (2♥)',ret:'Light Stones',chain:'Light Stones ×3 → Spark → Mechanism → Ingot → Retsuko chain'},
+  {id:'cc',n:'Chococat',e:'🐈',three:'Interactive History of Chocolate',alt:'Ancient Inventions (2♥, nearly same value)',ret:'Gizmos',chain:'Gizmos ×3 → Mechanism → Ingot → crafting materials chain'},
+  {id:'ci',n:'Cinnamoroll',e:'☁️',three:'Chocolate Chai',alt:'Mocha or Chai (2♥)',ret:'Candy Clouds',chain:'Candy Clouds → Candy Cloud Machine base ingredient'},
+  {id:'bm',n:'Badtz-maru',e:'🐧',three:'Ultimate Joke Pizza',alt:'Pineapple Pizza (2♥)',ret:'Paper',chain:'Paper → Blank Book → 1♥ gift for Chococat'},
+  {id:'ke',n:'Keroppi',e:'🐸',three:'Critter Totem',alt:'Any 2♥ critter',ret:'Sugarkelp',chain:'Sugarkelp → some cooking recipes'},
+  {id:'ts',n:'Tuxedosam',e:'🤵',three:'Designer Island Doll',alt:'Tropical Gift (2♥)',ret:'Thread',chain:'Thread → Fabric → Hangyodon gift'},
+  {id:'re',n:'Retsuko',e:'🦊',three:'Volcanic Guitar',alt:'Toasted Marshmallow Cloud (6pts, easiest)',ret:'Dough',chain:'Dough → Pizza Oven base for all pizza variants'},
+  {id:'pp',n:'Pompompurin',e:'🍮',three:'Mama\'s Pudding',alt:'Cheese Ice Cream (2♥)',ret:'Cactus Cream*',chain:'*Verify at wiki. Cactus Cream → Dessert Machine base ingredient'},
+  {id:'pe',n:'Pekkle',e:'🐤',three:'Mountain Soundtrack',alt:'Stacked Stones (2♥)',ret:'Feathers',chain:'Feathers → some crafting items'},
+  {id:'hy',n:'Hangyodon',e:'🌊',three:'Mermaid Figure',alt:'Any 2♥ rare fish (near-equal value)',ret:'Candlenuts',chain:'Candlenuts → Espresso Machine base ingredient'},
+  {id:'la',n:'Lala',e:'⭐',three:'Quattro Formaggi Pizza',alt:'Starry Skies Shake',ret:'Stardust',chain:'Cloud Island character. Requires Together Forever completion.'},
+  {id:'th',n:'TOPHAT',e:'🎩',three:'check wiki.gg/Tophat',alt:'Starry Skies Shake (1♥)',ret:'Glitches',chain:'Glitches → crafting recipes on Icy Peak'},
+];
+
+// COMPANION MATRIX
+const MATRIX=[
+  {act:'Gifting / XP',who:'Hello Kitty',ab:'+10% XP on all gifts (L12)',id:'r-hk'},
+  {act:'Cooking',who:'Hello Kitty',ab:'Sous Chef: 50% extra food',id:'r-hk'},
+  {act:'Crafting',who:'Chococat',ab:'Master Crafter: 30% extra item',id:'r-cc'},
+  {act:'Flower patterns',who:'Cogimyun ★DLC',ab:'Magical Girl: 1%→5% pattern',id:'r-cog'},
+  {act:'Mini-game doubling',who:'Cogimyun ★DLC',ab:'50% double reward',id:'r-cog'},
+  {act:'Fishing (rare)',who:'Badtz-maru',ab:'Fish Whisperer: more rares',id:'r-bm'},
+  {act:'Free daily game',who:'Badtz-maru',ab:'Gamer: 1 free game/day',id:'r-bm'},
+  {act:'Speed / traversal',who:'Pochacco',ab:'Speed Walker: 10–50%',id:'r-pc'},
+  {act:'Critter catching',who:'Keroppi',ab:'Critter Calmer: 10–50% slower',id:'r-ke'},
+  {act:'Diving / swimming',who:'Hangyodon',ab:'Speed Swimmer: up to 100%',id:'r-hy'},
+  {act:'Lava areas',who:'Retsuko (L19)',ab:'Hot Stuff: swim in lava!',id:'r-re'},
+  {act:'Climbing',who:'Pekkle',ab:'Speed Climber: 50–100%',id:'r-pe'},
+  {act:'Time of day',who:'Pekkle (L13)',ab:'Dance All Night: time control',id:'r-pe'},
+  {act:'Challenge courses',who:'Pompompurin',ab:'Slow & Steady: +5 seconds',id:'r-pup'},
+  {act:'Shopping / trades',who:'Tuxedosam',ab:'Negotiator: 25% extra item',id:'r-ts'},
+  {act:'Pickup runs',who:'TOPHAT (L9)',ab:'Pickup Glitch: bonus items',id:'r-th'},
+  {act:'Gathering routes',who:'Big Challenges',ab:'Vacuum: auto-collects items!',id:'r-bc'},
+  {act:'Weather timing',who:'Kiki & Lala',ab:'Meteorology: 50% shorter wait',id:'r-kl'},
+  {act:'Balloon travel',who:'Kuromi (L16)',ab:'Super Balloon: higher altitude',id:'r-ku'},
+  {act:'Potion duration',who:'Kuromi (L13)',ab:'Witchcraft: longer effects',id:'r-ku'},
+  {act:'Seed farming',who:'Wish me mell',ab:'Master Gardener: more seeds',id:'r-wm'},
+  {act:'Return gift farm',who:'My Melody',ab:'Big Smile: bonus return gift',id:'r-mm'},
+];
+
+// COMPANION ROSTER
+const ROSTER=[
+  {id:'r-hk',n:'Hello Kitty',e:'🎀',dlc:false,abs:[{n:'Sous Chef',l:'L2 (upgrades L5, L13, L21)',d:'50% chance of extra cooked food at any Cooking Station.'},{n:"Everyone's Friend",l:'L12',d:'+10% friendship XP from every gift while she accompanies you.'}]},
+  {id:'r-mm',n:'My Melody',e:'🎵',dlc:false,abs:[{n:'Big Smile',l:'L4 (upgrades L7, L12, L17)',d:'Increased chance of bonus return gift from any character.'},{n:'Handy Helper',l:'L9',d:'Reduces Visitor Cabin repair cost by 1 Strawberry Crate.'}]},
+  {id:'r-cc',n:'Chococat',e:'🐈',dlc:false,abs:[{n:'Master Crafter',l:'L5',d:'30% chance of extra item from any craft at the Crafting Table.'},{n:'Tour Guide',l:'L10',d:'Gives puzzle room hints during Puzzle Rooms.'}]},
+  {id:'r-ts',n:'Tuxedosam',e:'🤵',dlc:false,abs:[{n:'Fashionista',l:'L7 (upgrades L9, L14)',d:'Boosts special outfit powers (Mermaid Outfit is the only powered outfit currently).'},{n:'Negotiator',l:'L13',d:'25% chance of an extra item from any shop trade.'}]},
+  {id:'r-bm',n:'Badtz-maru',e:'🐧',dlc:false,abs:[{n:'Fish Whisperer',l:'L5 (upgrades L7, L12, L17)',d:'Increased chance of hooking rare fish while fishing.'},{n:'Gamer',l:'L9',d:'1 free mini-game per day. Never skip — always use it.'}]},
+  {id:'r-pc',n:'Pochacco',e:'⚽',dlc:false,abs:[{n:'Speed Walker',l:'L1 (upgrades L13, L18)',d:'10–50% walking speed increase. Best for traversal and all time trials.'},{n:'Relay',l:'L14',d:'Helps complete Island Challenge Courses.'}]},
+  {id:'r-ke',n:'Keroppi',e:'🐸',dlc:false,abs:[{n:'Critter Calmer',l:'L6 (upgrades to 50% at L13)',d:'Reduces critter movement speed 10–50%. Stack with Critter Friend.'},{n:'Critter Friend',l:'L9',d:'25% reduced chance critters become startled before you can catch them.'}]},
+  {id:'r-ku',n:'Kuromi',e:'💜',dlc:false,abs:[{n:'Witchcraft',l:'L13 (upgrades L18)',d:'Increases duration of potion special effects. Use during long exploration sessions.'},{n:'Super Balloon',l:'L16',d:'Increases altitude reached when using Balloons.'}]},
+  {id:'r-ci',n:'Cinnamoroll',e:'☁️',dlc:false,abs:[{n:'Soar',l:'L18 (upgrades L19)',d:'Float further when using Balloons. Affects horizontal distance, not just height (Kuromi affects height).'}]},
+  {id:'r-pe',n:'Pekkle',e:'🐤',dlc:false,abs:[{n:'Speed Climber',l:'L7 (upgrades L11)',d:'50% or 100% faster climbing. Best companion for Icy Peak and all vertical routes.'},{n:'Dance All Night',l:'L13',d:'Talk to Pekkle while he is your companion to change the time of day. Critical for time-sensitive events and content.'}]},
+  {id:'r-pup',n:'Pompompurin',e:'🍮',dlc:false,abs:[{n:'Slow & Steady',l:'L12',d:'+5 extra seconds on Island Challenge Courses and select mini-games (Bogging for Apples, Rockadoodler Roundup). Key for high-score runs.'}]},
+  {id:'r-re',n:'Retsuko',e:'🦊',dlc:false,abs:[{n:'Adrenaline',l:'L16 (upgrades L18)',d:'Stamina recharges faster while she accompanies you.'},{n:'Hot Stuff',l:'L19',d:'Swim in molten lava exactly as in water. Opens all lava-pool areas of Mount Hothead.'}]},
+  {id:'r-hy',n:'Hangyodon',e:'🌊',dlc:false,abs:[{n:'Speed Swimmer',l:'L5 (upgrades L9, L13)',d:'Swimming and diving speed up to 100% faster. Essential for Rainbow Reef.'},{n:'Fish Friend',l:'L10',d:'+25% chance of catching rare fish.'}]},
+  {id:'r-wm',n:'Wish me mell',e:'🌸',dlc:false,abs:[{n:'Master Gardener',l:'L11 (upgrades L17)',d:'More seeds from the Seed Dispenser.'},{n:'Precision Play',l:'L13',d:'Crane Craze mini-game prize movement slowed 25%.'}]},
+  {id:'r-msp',n:'My Sweet Piano',e:'🎹',dlc:false,abs:[{n:'Master Interior Designer',l:'L13 (upgrades L16, L19)',d:'Refunds furniture customization costs. Valuable for heavy cabin decorators.'}]},
+  {id:'r-th',n:'TOPHAT',e:'🎩',dlc:false,abs:[{n:'Pickup Glitch',l:'L9',d:'Increased chance of a bonus item whenever you pick anything up from the floor. Strong passive for all material runs.'}]},
+  {id:'r-bc',n:'Big Challenges',e:'🐊',dlc:false,abs:[{n:'Vacuum',l:'L19',d:'Automatically collects items from the floor. The most powerful gathering companion — completely transforms daily material runs.'}]},
+  {id:'r-kl',n:'Kiki & Lala',e:'⭐',dlc:false,abs:[{n:'Meteorology',l:'Together Forever quest',d:'Reduces time between weather events by 50%. Useful for Fwish Fountain timing and weather-locked content.'}]},
+  {id:'r-cog',n:'Cogimyun',e:'🌟',dlc:true,abs:[{n:'Magical Girl',l:'L19',d:'Flower pattern chance 1%→5% from fertilizer (5× improvement). Also 50% to double mini-game and Fwishing Well rewards. Does NOT apply to Wheatflour Wonderland, Ice Breaker, or City Town mini-games.'},{n:'Fall Apart',l:'L26',d:'Chance to refund ingredients at Crafting Table, Creation Station, Chef\'s Station, and all Forge stations. Best companion for expensive crafting sessions.'}]},
+  {id:'r-usa',n:'Usahana',e:'🐰',dlc:true,abs:[{n:'Reimagine',l:'City Town quest',d:'Once per day: alter a flower plot, mini-game prize board, or an item. Unique daily reroll ability.'}]},
+];
+
+// FLOWER DATA
+const CC=[
+  {p:'Red × Yellow',r:'Orange',n:'Works directly in most species'},
+  {p:'Red × White',r:'Pink / Blush',n:'Most species; blush may be default in some'},
+  {p:'Purple × White',r:'Lavender',n:'Mix purple ombré with white'},
+  {p:'Orange × White',r:'Peach',n:'Mix orange ombré with white'},
+  {p:'Green × Blue',r:'Teal / Aqua',n:'Multi-step; requires a blue-base species'},
+  {p:'White + Fertilizer',r:'Warm Pink (pattern)',n:'Default pattern color for white flowers'},
+  {p:'Any + Daily Fertilizer',r:'Ombré gradient',n:'Develops over days; re-fertilize after every bloom'},
+  {p:'Ombré × Ombré (same species)',r:'Double Ombré',n:'Very rare; same species only; leave space around plants'},
+];
+const BT=[
+  {i:'🏡',t:'Greenhouse = 100% spawn rate. Always breed rare targets there.'},
+  {i:'💧',t:'Fertilizer resets after blooming — re-fertilize immediately after every bloom.'},
+  {i:'⭐',t:'Pattern chance: 1% normally. With Cogimyun (Magical Girl) companion: 5%.'},
+  {i:'🌉',t:'To transfer colors between species, you NEED an ombré flower as the bridge.'},
+  {i:'🚫',t:'Cannot breed: Red, White, Blue, Sky Blue, Hot Pink — species base colors only.'},
+  {i:'🪴',t:'Alternating layout (plant, gap, plant, gap) maximizes crossbreeding pair opportunities.'},
+  {i:'🌺',t:'Hibiscus only has hot pink as base — ombré crossbreeding required for any other color.'},
+  {i:'🔄',t:'Picking up and replanting an ombré restarts it, boosting its spawn probability.'},
+];
+
+const SQ=['Best visitor cabin to prioritize next?','How do I get Cogimyun from the DLC?','What are all the mini workbench unlock quests?','Retsuko questline order — what unlocks what?','City Town DLC sewer puzzles and City Keys?'];
+const SYS=`You are the Island Oracle for a veteran HKIA player (since July 2023, nearly everything maxed). Comprehensive knowledge:
+
+VISITORS — CORRECTIONS: Azuki = ALL 13 Yummy furniture (not generic). Cappuccino = 2 Bakery + 2 Cozy Beverage + 2 Pizza. Chiffon = Coastal Decorative Plant + Spooky Lounge Sofa + Rustic Bookcase. Corune = Cloud Island + Poron permanent resident + Starfall wallpaper + Rare Candle + Sweet Dreams Stories + Dreamy Star (not just "Cloud Island + Hither and Yon").
+
+MILK CHAIN (hardest unlock): 9 visitors must all be 5★ permanent FIRST — Poron, Corune, Espresso, Azuki, Chiffon, Coco, Nuts, Mocha, Cappuccino — then complete "Time for Milk" quest series. Milk cabin: Cinnamoroll L20 + 5 Kawaii furniture + Coral Milk + Dreamy Lamb Plush. After "Milk?" quest: Milk collects ALL visitor daily gifts for you. PORON TRAP: 2026 Colorblaze items don't count — need pre-2026 Colorblaze clothing. Flower Crowns don't count. Mocha mirror quest shortcut: press Confirm immediately without actually changing clothes.
+
+NEW VISITORS (not in earlier data): Kuma (Cloud Island, Friends from Stars quest + Kiki/Lala L10, needs 1 Pillow + 4 Lamp + 1 Plant + 6 Dreamy + Dreamy Star); Neko (same quest, Cloud Island, needs 1 Pillow + 4 Lamp + 1 Bookcase + 6 Dreamy + Dreamy Souvenir Doll); Itaro (Rainbow Reef near Hangyodon, Update 2.16); Retsuko\'s Mom (Hothead + Haida 5★ permanent + 1 Pillow); Tsunoda (Hothead + Gori AND Washimi 5★ permanent + 8 Mirror + 4 Lamp + 1 Pillow + 1 Table + 2 Chair); Puko (Hothead, "Everything is Fine", Table req removed in 2.13); Chief Komiya (Hothead, "Subtract and Distract", 2 Computers + 1 Pillow + 4 Chair + 1 Table + 4 Box); Poco (Merry Meadow, "A Long Awaited Introduction", unlocks Greenhouse + Gemstone flower plots); Roseanne (Merry Meadow + Aro permanent + 6 Dreamy + Pink Cloud + Sweet Cloud); Nina (Merry Meadow + Poco permanent + Molten Frappe + 6 different event furniture items; permanent Nina → Moon flower plots via "A Finishing Flourish").
+
+CANDY CLOUD MACHINE: Cloud Island, upper eastern island. Lala L2 + "Sweets in the Stars" quest (give Kiki 3 Starfruit → Cloud Transport repaired → access machine). Base: Candy Cloud (Cinnamoroll return). Upgrade: Kiki L5. Cabin plans: Lala L13. Mini Candy Cloud Machine: "Sweet Skies" quest.
+
+WEATHER: Rainfall = Aquafall Machine (Rain Island Stone, once per 7 days). Starfall = Celestree (Star Island Stone, once per 7 days, night only). Both trigger random region. WARNING: triggering one weather event ends any other ongoing weather event. Natural weather every 20-40 min. Kiki/Lala Meteorology: 50% shorter. WW weather: Wonderous Stone from Grand Flowl Spelt, once per 7 days. Starfall Star Treasures NOT in Rainbow Reef (fish Starry Snipe there instead). Star Treasures persist past daily reset.
+
+COLLECTIONS: Comic Books complete set → Badtz-maru → "Something else" → "Ultimate Comics". Island Bouquet after Nul already collected = new material must be manually grabbed. Friendship Blossom (Tuesdays+Thursdays from My Melody, 1 per day, max 3) resets 1 character. Friendship Bouquet resets all characters at once.
+
+CORE SYSTEMS: 3-day item stacking; Best Friend gathering via Island Spirit after "Besties, Assemble!"; Milk's collection of visitor gifts; Poco permanent → Greenhouse + Gemstone flowers; Nina permanent + "A Finishing Flourish" → Moon flower plots; Sprinkler Hat Nul = "Friends of the Flowers"; Collector Hat Nul = "Terra Nul". Candy Cloud Machine fixed data. Mini Vending Machine = "Vend Diagram" quest. All DLC knowledge from previous prompt.
+
+Apply ruthless efficiency: lead with the specific actionable answer. No preamble. Under 200 words unless complexity requires more.`;
+
+
+
+// ═══════════════════════════════════════════════════════════════ HELPERS ═══
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function daysUntil(m,d){const n=new Date();let t=new Date(n.getFullYear(),m-1,d);if(t<=n)t=new Date(n.getFullYear()+1,m-1,d);return Math.ceil((t-n)/864e5)}
+function dtm(){const d=new Date().getDay();return d===1?7:(8-d)%7}
+function isMay(){return new Date().getMonth()===4}
+
+// ═══════════════════════════════════════════════════════════════ RENDER ═══
+
+// TODAY
+document.getElementById('dtm').textContent=dtm();
+if(isMay()){document.getElementById('meh-banner').innerHTML=`<div class="banner" role="note"><div class="b-icon" aria-hidden="true">🌟</div><div><div class="b-title">Month of Meh — active all of May!</div><div class="b-text">All past Tophat Gudetama are available right now. This is the only catch-up window until they cycle back a year from now.</div></div></div>`;}
+document.getElementById('loop-list').innerHTML=LOOP.map(item=>`<div class="loop-row${item.k==='wk'?' wk':''}"><div class="loop-num" aria-hidden="true">${item.n}</div><div><div class="loop-title">${esc(item.t)}</div><div class="loop-note">${esc(item.s)}${item.k==='dlc'?'<br><span class="lkey">Wheatflour Wonderland DLC</span>':''}${item.k==='wk'?'<br><span class="lkey g">Weekly only</span>':''}</div></div></div>`).join('');
+document.getElementById('bday-list').innerHTML=BD.map(b=>({...b,days:daysUntil(b.m,b.d)})).sort((a,b)=>a.days-b.days).slice(0,4).map(b=>`<div class="brow"><div class="bl"><span class="be" aria-hidden="true">${b.e}</span><div><div class="bn">${esc(b.n)}</div><div class="bd">${new Date(2026,b.m-1,b.d).toLocaleDateString('en-US',{month:'long',day:'numeric'})}</div></div></div><span class="badge ${b.days<=14?'soon':'later'}">${b.days===1?'Tomorrow!':b.days+'d'}</span></div>`).join('');
+document.getElementById('event-list').innerHTML=EVENTS.map((e,i)=>`<div class="ev-row"><div class="ev-month">${esc(e.m)}</div><div><div class="ev-name">${esc(e.n)}</div><div class="ev-note">${esc(e.s)}</div></div></div>`).join('');
+document.getElementById('quest-cats').innerHTML=QUEST_CATS.map(q=>`<div style="display:flex;gap:9px;padding:8px 0;border-bottom:1px solid #FFE0CC;align-items:flex-start"><span style="font-size:16px;flex-shrink:0">${q.icon}</span><div><div style="font-weight:700;font-size:12px">${esc(q.name)}</div><div style="font-size:11px;color:var(--tm);line-height:1.4;margin-top:2px">${esc(q.desc)}</div></div></div>`).join('').replace(/border-bottom:1px solid #FFE0CC"><\/div>$/, '"><\/div>');
+
+// VISITORS
+const SEASON_LABELS={any:{l:'Anytime',c:'tag-any'},spr:{l:'Spring',c:'tag-spr'},sum:{l:'Summer/Winter',c:'tag-sum'},fall:{l:'Fall',c:'tag-fall'},win:{l:'Winter',c:'tag-win'},quest:{l:'Quest-gated',c:'tag-quest'},dlc:{l:'DLC',c:'tag-dlc'}};
+let visFilter='all';
+function renderVisitors(){
+  const shown=visFilter==='all'?VISITORS:VISITORS.filter(v=>v.s===visFilter||(visFilter==='sum'&&(v.s==='sum'||v.s==='win')));
+  document.getElementById('vis-list').innerHTML=shown.map(v=>{
+    const sl=SEASON_LABELS[v.s]||{l:v.s,c:'tag-any'};
+    return `<div class="vc" id="vc-${v.id}"><button class="vc-btn" aria-expanded="false" aria-controls="vb-${v.id}" onclick="togV('${v.id}')"><div class="vc-left"><span class="vc-e" aria-hidden="true">${v.e}</span><div><div class="vc-n">${esc(v.n)}</div><div class="vc-s">Friend: ${esc(v.fr)} · ${esc(v.av)}</div></div></div><span class="vc-tag ${sl.c}">${sl.l}</span><span class="vc-chev" aria-hidden="true">▼</span></button><div class="vc-body" id="vb-${v.id}" role="region" aria-label="${esc(v.n)} visitor requirements"><div class="req-list">${v.reqs.map(r=>`<div class="req-item"><div class="req-dot" aria-hidden="true"></div><span>${esc(r)}</span></div>`).join('')}</div><div class="vc-gift">📦 Daily gift: <strong>${esc(v.gift)}</strong></div>${v.quest?`<div class="vc-gift">🔓 Quest required: ${esc(v.quest)}</div>`:''} ${v.note?`<div class="vc-note">${esc(v.note)}</div>`:''}</div></div>`;
+  }).join('');
+}
+const FILTERS=[{k:'all',l:'All'},{k:'any',l:'Anytime'},{k:'spr',l:'Spring'},{k:'sum',l:'Summer/Winter'},{k:'fall',l:'Fall'},{k:'quest',l:'Quest-gated'},{k:'dlc',l:'DLC'}];
+document.getElementById('vis-filters').innerHTML=FILTERS.map(f=>`<button class="fpill${f.k==='all'?' on':''}" onclick="setVisFilter('${f.k}',this)">${f.l}</button>`).join('');
+renderVisitors();
+function setVisFilter(k,btn){visFilter=k;document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderVisitors();}
+function togV(id){const c=document.getElementById('vc-'+id),btn=c.querySelector('.vc-btn'),isO=c.classList.contains('open');document.querySelectorAll('.vc').forEach(x=>{x.classList.remove('open');x.querySelector('.vc-btn').setAttribute('aria-expanded','false')});if(!isO){c.classList.add('open');btn.setAttribute('aria-expanded','true');}}
+
+// CRAFTING
+document.getElementById('cook-list').innerHTML=COOK.map(s=>`<div class="stc"><div class="stc-head"><span class="stc-icon" aria-hidden="true">${s.i}</span><div><div class="stc-name">${esc(s.n)}</div><div class="stc-loc">${esc(s.loc)}</div></div></div><div class="info-grid"><div class="ig"><div class="ig-label">Unlock</div><div class="ig-val">${esc(s.unlock)}</div></div><div class="ig"><div class="ig-label">Base ingredient</div><div class="ig-val p">${esc(s.base)}</div></div><div class="ig"><div class="ig-label">Upgrade</div><div class="ig-val">${esc(s.upg)}</div></div><div class="ig"><div class="ig-label">Recipes</div><div class="ig-val t">${esc(s.recipes)}</div></div></div>${s.comp&&s.comp!=='—'?`<div class="stc-note">Companion bonus: ${esc(s.comp)}</div>`:''}${s.mini?`<div class="stc-mini">📦 Cabin/mini version: ${esc(s.mini)}</div>`:''}</div>`).join('');
+document.getElementById('craft-list').innerHTML=CRAFT.map(s=>`<div class="stc"><div class="stc-head"><span class="stc-icon" aria-hidden="true">${s.i}</span><div><div class="stc-name">${esc(s.n)}</div><div class="stc-loc">${esc(s.loc)}</div></div></div><div class="info-grid"><div class="ig"><div class="ig-label">Unlock</div><div class="ig-val">${esc(s.unlock)}</div></div><div class="ig"><div class="ig-label">Cabin version unlock</div><div class="ig-val p">${esc(s.mini)}</div></div></div>${s.comp?`<div class="stc-note">Companion bonus: ${esc(s.comp)}</div>`:''}<div class="stc-note">${esc(s.note)}</div></div>`).join('');
+
+// FRIENDS (gifts + matrix + roster)
+document.getElementById('gift-list').innerHTML=GIFTS.map(g=>`<div class="gc" id="gc-${g.id}"><button class="gc-btn" aria-expanded="false" aria-controls="gb-${g.id}" onclick="tog('gc','${g.id}')"><div class="gc-left"><span class="gc-emoji" aria-hidden="true">${g.e}</span><div style="min-width:0"><div class="gc-n">${esc(g.n)}</div><div class="gc-g">3♥ ${esc(g.three)}</div></div></div><span class="gc-r">→ ${esc(g.ret)}</span><span class="gc-cv" aria-hidden="true">▼</span></button><div class="gc-body" id="gb-${g.id}"><div class="gi"><div class="gbox"><div class="gbox-l">3-Heart Gift</div><div class="gbox-v">${esc(g.three)}</div></div><div class="gbox"><div class="gbox-l">Returns</div><div class="gbox-v gr">${esc(g.ret)}</div></div><div class="gbox" style="grid-column:1/-1"><div class="gbox-l">Practical Alt</div><div class="gbox-v" style="font-weight:600;color:var(--t2)">${esc(g.alt)}</div></div></div><div class="gcn">${esc(g.chain)}</div></div></div>`).join('');
+document.getElementById('matrix').innerHTML=MATRIX.map(m=>`<div class="mx" role="button" tabindex="0" aria-label="${esc(m.act)}: use ${esc(m.who)}" onclick="openRosterFor('${m.id}')" onkeydown="if(event.key==='Enter'){openRosterFor('${m.id}')}"><div class="mx-top">${esc(m.act)}</div><div class="mx-who">${esc(m.who)}</div><div class="mx-ab">${esc(m.ab)}</div></div>`).join('');
+document.getElementById('roster').innerHTML=ROSTER.map(c=>`<div class="ac" id="ac-${c.id}"><button class="ac-btn" aria-expanded="false" aria-controls="ab-${c.id}" onclick="tog('ac','${c.id}')"><div class="ac-left"><span class="ac-icon" aria-hidden="true">${c.e}</span><div><div class="ac-name">${esc(c.n)}${c.dlc?`<span class="dlc">DLC</span>`:''}</div><div class="ac-sub">${c.abs.length} ${c.abs.length===1?'ability':'abilities'} · ${c.abs[0].n}</div></div></div><span class="ac-chev" aria-hidden="true">▼</span></button><div class="ac-body" id="ab-${c.id}" role="region" aria-label="${esc(c.n)} abilities">${c.abs.map(a=>`<div class="ab-row"><div class="ab-lv">${esc(a.l)}</div><div class="ab-name">${esc(a.n)}</div><div class="ab-desc">${esc(a.d)}</div></div>`).join('')}</div></div>`).join('');
+function openRosterFor(id){go('friends');setTimeout(()=>{const c=document.getElementById('ac-'+id);if(c){if(!c.classList.contains('open'))tog('ac',id.replace('ac-',''));c.scrollIntoView({behavior:'smooth',block:'center'});}},50);}
+
+// FLOWERS
+document.getElementById('ctbl').innerHTML=CC.map(r=>`<tr><td>${esc(r.p)}</td><td>${esc(r.r)}</td><td>${esc(r.n)}</td></tr>`).join('');
+document.getElementById('btips').innerHTML=BT.map(t=>`<div class="tip"><span class="ti" aria-hidden="true">${t.i}</span><span class="tt">${esc(t.t)}</span></div>`).join('');
+
+
+// SECRETS DATA
+const SECRETS_DATA=[
+  {id:'s1',cat:'⚙️ Hidden Mechanics',star:true,title:'The Moon — Hidden Area (Update 2.6)',body:'Big Challenges attaches rockets to the rollercoaster during "This Tall to Ride" quest — the cart blasts into SPACE. Low gravity, unique physics. LittleTwinStars secret base. Critters: Comet Hoppers + Cosmouses (Moon-only, cannot be donated to Curator Nul). 11 Moon Cheese/day + 5 more after completing "This Tall to Ride." Moonbeam currency → Stardust Store. Flower plots unlock with "A Finishing Flourish" quest while Nina is a resident. Moon Base fast-travel point.'},
+  {id:'s2',cat:'⚙️ Hidden Mechanics',star:true,title:'3-Day Item Stacking (April 2025 Update)',body:'All ground-spawning materials now accumulate for up to 3 days. Miss 2 days = find 3× the daily amount. Event currencies also stack. Weather currencies persist until the same weather respawns in that region. EXCEPTIONS: Daily gifting does NOT stack (always max 3 gifts/day). Best Friend material collection also does not stack — still daily max.'},
+  {id:'s3',cat:'⚙️ Hidden Mechanics',star:false,title:'Bed → Change Time of Day',body:'Interact with any bed inside a Visitor Cabin to change the in-game time of day. Faster alternative to Pekkle\'s Dance All Night ability when you need to shift from night to morning or vice versa for critters or quests.'},
+  {id:'s4',cat:'⚙️ Hidden Mechanics',star:false,title:'Cogimyun Magical Girl — Known Limitations & Bug',body:'Magical Girl (1%→5% patterns) does NOT apply to: Wheatflour Wonderland mini-games, Ice Breaker (Moppu\'s game), or City Town mini-games. Known bug: Magical Girl ability causes ALL game interactions to freeze if you LOSE at Rockadoodler Roundup. Swap companion before playing that game.'},
+  {id:'s5',cat:'⚙️ Hidden Mechanics',star:false,title:'Snowball Mechanic with Moppu',body:'Equip Moppu as companion → Snowball tool unlocks in Tool Wheel. Can be thrown in Icy Peak or any region during Snowfall. Use for Frost from Snow Targets. Secret: Snowballs pop Balloons (including your own!) and give any character a shocked reaction. No negative consequence from hitting characters.'},
+  {id:'s6',cat:'📦 Efficiency Systems',star:true,title:'Best Friend Material Gathering',body:'Reach max friendship (Best Friends) with any resident → they can gather one material type for you daily, just like the Collector Nul. After completing "Besties, Assemble!" quest (unlocked after "Return to the Heart" series): speak to the Island Spirit at Heart of the Island → "Choose what my friends collect…" menu manages ALL Best Friend requests at once. Massive efficiency unlock for late-game.'},
+  {id:'s7',cat:'📦 Efficiency Systems',star:false,title:'Collector Hat Nul — Collect Box',body:'Complete "Terra Nul" quest series (Pochacco gives you the Collector Hat). Place on a Nul near Small Gift Big Smile. Assigns ONE material type per day. That material collects automatically overnight — pick up from Collection Box at next reset. Note: Nul only collects items you haven\'t grabbed yet. Works with 3-day stacking (can collect up to 3× amount).'},
+  {id:'s8',cat:'📦 Efficiency Systems',star:false,title:'Sprinkler Hat Nul — Mass Flower Watering',body:'Unlocked via "Friends of the Flowers" quest (after Terra Nul + Green Thumbs). Craft Sprinkler Hats and place on Nuls in each region. Ask the Nul daily → waters ALL flowers in that biome. You can have multiple Sprinkler Hat Nuls across regions. Only 1 Nul per region per day can water. Combine with Cogimyun fertilizing for maximum flower productivity.'},
+  {id:'s9',cat:'📦 Efficiency Systems',star:false,title:'Hangyodon Bestie Bin (Auto Trash)',body:'After "Trashy Treasure Trove" quest: Hangyodon Bestie Bin in Comedy Club auto-collects 15 Trash/day. Accumulates up to 45 (3-day cap). Decorative versions you can place in cabins do NOT collect Trash — only the real one in Comedy Club works. Trash is used in Rainbow Reef crafting and recycling.'},
+  {id:'s10',cat:'🌙 The Moon Deep Dive',star:true,title:'Music Discs on The Moon',body:'After the Moon update: Moonbeam Magic discs (4 total: Full Mix, Chill Mix, Base Mix, Twilight Mix) have a very rare chance of spawning in Moon Cheese crater locations instead of cheese. The "Hello, Friend!" disc is different — water a Gift Flower near the Moon Base to unlock it (one-time, then purchasable from Pekkle\'s Music Shop in City Town). 1 Spirit of Friendship disc spawns daily on Moon Island after "Return to the Heart" quest — cannot accumulate more than 1 day.'},
+  {id:'s11',cat:'🌙 The Moon Deep Dive',star:false,title:'General Music Disc Strategy',body:'1 Music Disc spawns per region per day (8 regions = 8/day). Other sources: fishing, Thermals, Star Treasure, Rainfall Flowers, Radiant Chests, mini-game wins, Pekkle\'s Music Shop (City Town). Island Bouquet respawns all daily item spawns including disc locations.'},
+  {id:'s12',cat:'🌾 Wheatflour Wonderland DLC',star:true,title:'Access + 3-Tier Map',body:'Unlock: "Potion Problems" quest (Kuromi + My Melody spill potion on flour in HK\'s Café, opens portal). Tier 1: immediate access to Wheatflower Fields, Floating Fields, Royal Gardens, Citadel, Upper Citadel, Crafting Court, Castle Cabins. Tier 2: speak to Grand Flowl Durum at Upper Citadel — use 2 Magic Wands to change lamppost colors on both sides. Tier 3: find Flockadoodler Critter Launchpad near Periwinkle Park — use Flockadoodler Critter Wand to transform and launch. 8 gemstone Magic Wands (Ruby, Citrine, Emerald, Alexandrite, Sapphire, Tanzanite, Amethyst, Quartz) needed for all Tier 3 areas.'},
+  {id:'s13',cat:'🌾 Wheatflour Wonderland DLC',star:true,title:'Wand System — Transform Into Anything',body:'Wands are crafted at the Wand Forge. Two types: Magic Wands (gemstone-powered, light up lamps and open areas), Critter Wands (transform into critters to use Critter Launchpads). You can also make item-based wands and transform into literally any item including a pizza. This is used for puzzles but also purely cosmetic fun. Cogimyon (Cogimyun\'s brother) asks you to show him critter transformations — must make Flourflap, Fluffny, and Flirb wands to complete his quest.'},
+  {id:'s14',cat:'🌾 Wheatflour Wonderland DLC',star:false,title:'City Town / WW Portal',body:'"Saving Snacks" quest unlocks a portal between City Town and Wheatflour Wonderland. Located north of Cogimyon\'s Corral in WW, blocked by an Opal Forcefield — needs Opal Magic Wand to remove. Interconnects both DLCs for faster travel between them.'},
+  {id:'s15',cat:'🏙️ City Town DLC',star:true,title:'Getting In + Prerequisites',body:'Requires: Snorkel (Deep Diving quest) + Fishing (Keep it Reel quest) + Badtz-maru, Chococat, Keroppi, Kuromi, Cinnamoroll all at friendship L7 minimum. Then: complete "Ship Shape" (Badtz-maru) → "Into the Fog" → arrive in City Town. Fast travel unlocks quickly after arrival.'},
+  {id:'s16',cat:'🏙️ City Town DLC',star:true,title:'4 Figment Types',body:'Figments are mysterious glowing markings around City Town that release when activated. Four types: 🟢 Green (Hidden) — race to a different location within a time limit. 🩷 Pink (Platform) — parkour/climbing challenge to reach it. 🔵 Blue (Hungry) — feed it something. 🟡 Yellow (Treasure Hunt) — use Crystal Sensor to find it. Figment Nul tracks your total; hit milestones for furniture rewards.'},
+  {id:'s17',cat:'🏙️ City Town DLC',star:false,title:'Sewers + Shops',body:'Sewers access: "Above and Below" quest, then interact with manhole covers around City Town. Contains gudetama puzzles. Shops opened by advancing Usahana friendship: Imagination Café (food + café decoration), Piano Plushie Pals (My Sweet Piano — craft plushies), Pekkle\'s Music Shop (buy Music Discs!), Keroppi\'s Orchard (grow café fruit), Tourist Shop (Hangyodon — unique souvenirs), Kuromi\'s Boutique (craft custom avatar color palettes using flowers). Theater with Hangyodon. Kirimi-chan cameo + Sashimi Spire location.'},
+  {id:'s18',cat:'✅ Completionist Tips',star:false,title:'Tophat Gudetama — Photo Bug Fix',body:'If taking the photo doesn\'t register for the quest, go to Gameplay Settings → enable "Show Photographed Collectibles" → retake the photo. 52-week cycle — each location returns exactly 1 year after its initial appearance. Same location for ALL players globally. Map marker disappears if you already have those crafting plans.'},
+  {id:'s19',cat:'✅ Completionist Tips',star:false,title:'Flower Stats for Completionists',body:'There are 115,333+ known flower variations (as of April 2025). No achievement exists for collecting all variations. The Collections goals do not require every variation — don\'t let it stress you out.'},
+  {id:'s20',cat:'✅ Completionist Tips',star:false,title:'Snow Village Fishing + Mashu Outfit Change',body:'Icy Caves have glacial pool fishing spots with unique fish species. Snow Village has winter critters. When Mashu visits, you can change her outfit — select "Will you change outfits?" in the dialogue options. Unlocking Mashu as companion also unlocks this interaction.'},
+  // Pass 4-6 findings
+  {id:'s21',cat:'🍼 Milk — The Hardest Visitor',star:true,title:'Milk Unlock Chain — 9 Visitors Required',body:'To unlock Milk as a visitor, all 9 of these must be 5★ permanent residents: Poron, Corune, Espresso, Azuki, Chiffon, Coco, Nuts, Mocha, Cappuccino. Then complete the "Time for Milk" quest series (3 quests). Milk\'s cabin: Cinnamoroll L20 + 5 Kawaii furniture + Coral Milk + Dreamy Lamb Plush. After completing "Milk?" quest: Milk collects ALL Island Visitor daily gifts for you every day — speak to him near the Collection Box. He\'s been a community running joke since launch ("Where IS Milk?").'},
+  {id:'s22',cat:'🍼 Milk — The Hardest Visitor',star:true,title:'Poron — Event Clothing Trap',body:'Poron needs 4 specific pieces of event clothing (on Clothing Stands): 1 Lighttime Jubilee, 1 Hugs & Hearts, 1 Colorblaze Carnival, 1 Month of Meh. CRITICAL: 2026 Colorblaze Carnival items do NOT fulfil her requirement — only pre-2026 items count. Flower Crowns made with event flowers also do not count. This is a commonly reported gotcha.'},
+  {id:'s23',cat:'🍼 Milk — The Hardest Visitor',star:false,title:'Corune — Full Requirements',body:'Corune needs: Cloud Island + Poron must be permanent first + Starfall wallpaper + Rare Candle + Sweet Dreams Stories + Dreamy Star. The "Hither and Yon" quest is what UNLOCKS Corune in the visitor menu — it\'s not a cabin requirement. Both Poron and Corune at 5★ permanent are required before Milk unlocks.'},
+  {id:'s24',cat:'🌤️ Weather System',star:true,title:'Manual Weather Control',body:'After "Rainy Day Delight" quest: craft Rain Island Stone → put in Aquafall Machine for Rainfall. Craft Star Island Stone → put in Celestree for Starfall. Once every 7 days each. Activates in a random region. WARNING: Manually triggering one weather event during another ENDS the first event even if they\'re in different regions. Kiki & Lala Meteorology: 50% shorter time between natural weather events (20–40 min normally → 10–20 min).'},
+  {id:'s25',cat:'🌤️ Weather System',star:false,title:'What Each Weather Spawns',body:'Rainfall (15 min): waters flowers, Rainfall Flowers in Seaside/Swamp/Merry Meadow (NOT Hothead), Shower Springtail critter at Hothead Hot Springs. Starfall (night only): Star Treasure chests (3 Stardrops each) in Seaside/Swamp/Gem Mtn/Hothead/Merry/Cloud/The Moon — NOT Rainbow Reef. In Reef: fish for Starry Snipe (above Kelp Maze or Comedy Club). Stardrakes spawn on Cloud Island. Star Treasures persist until collected. Steam Vents: Heartlings in Merry Meadow, Steamy Sunfish near Seaside Cozy Islands.'},
+  {id:'s26',cat:'🌤️ Weather System',star:false,title:'Weather Currency Trick',body:'No currency visible where a weather event is occurring = a weather critter is present instead. Some regions have both currency AND critter. Weather currencies (Raindrops, etc.) persist in the region until collected OR the same weather happens again in that same region — they survive daily resets.'},
+  {id:'s27',cat:'🐟 Fishing & Critters',star:false,title:'Fishing Quick Reference',body:'Unlock: Badtz-maru L3 → "Keep It Reel" quest. Bait from Comic and Bait Shop or the Hook icon on your rod menu — boosts rare fish chance. Different fish per region AND time of day. Icy Caves glacial pools have unique fish/critters. Rainbow Reef: fish above the Kelp Maze or near Comedy Club for weather fish (Starry Snipe during Starfall).'},
+  {id:'s28',cat:'🐟 Fishing & Critters',star:false,title:'Nature Preserve + Corrals',body:'5-room Nature Preserve in Spooky Swamp: Seaside, Bog, Reef, Gemstone, Volcano rooms. Woolox (Icy Peak critter) goes in Seaside room despite being from Icy Peak. Cloud Island and Merry Meadow each have their own Critter Corrals separate from the Nature Preserve. City Town DLC has the City Critter Park. Comet Hoppers and Cosmouses (Moon critters) CANNOT be donated to any Curator Nul.'},
+  {id:'s29',cat:'🐟 Fishing & Critters',star:true,title:'Imaginary Food (City Town DLC)',body:'City Town has "Imaginary Food" that looks like critters but is actually imaginary technology. Cannot go in City Critter Park. NOT in the Critters inventory tab. But they CAN be used as ingredients at the Chef\'s Station (Imagination Café cooking). Must be "caught" with the Net like regular critters.'},
+  {id:'s30',cat:'📦 Resources & Collections',star:false,title:'Comic Books — Complete a Set',body:'Comics spawn around the island, in Treasure Chests, via fishing, weather events (Rainfall Flowers/Thermals/Star Treasure), quests, friendship levels, and the Comic & Bait Shop in Seaside Resort. When you have every comic in a set, talk to Badtz-maru → "Something else…" → "Ultimate Comics" to complete the collection and earn a reward.'},
+  {id:'s31',cat:'📦 Resources & Collections',star:false,title:'Island Bouquet + Collection Box Interaction',body:'If you use an Island Bouquet (resets daily spawns) AFTER the Collector Nul or Best Friend has already collected: the NEW material won\'t be auto-collected. The Nul/Best Friend already marked their job done for the day. New material must be collected manually. Tip: do manual Island Bouquet farming before assigning Nul collection for the day.'},
+  {id:'s32',cat:'📦 Resources & Collections',star:false,title:'Friendship Blossom vs Friendship Bouquet',body:'Friendship Blossom (single pink flower): resets one character\'s daily gift limit (+3 gifts). My Melody gives 1 on Tuesdays AND Thursdays. Max hold: 3. Friendship Bouquet: resets ALL characters\' daily gift limit at once — far more efficient for big gifting sessions. Both found in Daily Rewards and some Treasure Chests.'},
+  {id:'s33',cat:'🌱 Flower Farming',star:true,title:'Poco → Unlocks Greenhouse + Gemstone Flowers',body:'When Poco becomes a 5★ permanent resident, two things unlock: (1) Flower plots in Gemstone Mountain where Thistles grow from planted Seeds. (2) The Greenhouse with 100% flower spawn rate. Both are critical for late-game flower farming. Get Poco permanent before setting up your serious flower operation.'},
+  {id:'s34',cat:'🌱 Flower Farming',star:false,title:'Nina → Unlocks Moon Flower Plots',body:'Moon flower plots (on The Moon area) unlock when you complete "A Finishing Flourish" quest while Nina is a permanent resident on the island. Nina has some of the most complex cabin requirements — 6 event furniture items from 6 different annual events.'},
+
+  // PASS 3 — Mini-Games, Weather, Spirit Hearts, Imagination Café
+  {id:'s21',cat:'🎮 Mini-Game Guide',star:false,title:'All Mini-Games + Best Companions',body:'6 official + extras. 1) Bogging for Apples (Spooky Swamp): 25 Ghost Apples in 60s maze — Pochacco Speed Walker OR Pompompurin Pudding Pants (jumps hedges). NOTE: Speedy Walking Potion + Pudding Pants STACK; Potion + Pochacco do NOT. 2) Red Hot Rampage (Mount Hothead indoor): 14 Magma Blooms in 180s lava maze — Pompompurin/Kuromi/Cinnamoroll for height. Thermal Potion boosts balloon. 3) Gem Match (Gemstone Mountain, Dance Hall): Color memory/match puzzle. 4) Rockadoodler Roundup (Gemstone Mountain Corral): 15 in 60s. Stay on main plateau — boundary is unmarked. Keroppi slows critters; Pochacco helps speed. 5) Crane Craze (Merry Meadow north of Temple): Giant crane. Wish me mell Precision Play slows prize board 25%. 6) Seapony Racing (Rainbow Reef): Bet on seahorse — outcome is PURE RANDOM. 7) Ice Breaker (Moppu Cave, Snow Village): Repair via "Tinkering Time" quest. Separate prize pool. 8-9) WW: Catch Cogimyon + Find Ebi Fry mini-games. Multiplayer prize-sharing: ONLY Bogging for Apples, Red Hot Rampage, and Rockadoodler Roundup award prizes to both players.'},
+  {id:'s22',cat:'🎮 Mini-Game Guide',star:false,title:'Rockadoodler Out-of-Bounds Warning',body:'Out-of-bounds zone is UNMARKED. Getting too far ends the game instantly (ticket not refunded if any critters caught). Safe inbounds: main plateau level of corral, northernmost boulders, northwest lake, right ladder without climbing to top. OUT of bounds includes: top of south-start ladder, corners near Zipline station, Cozy Crystal stage, west of northwest lake.'},
+  {id:'s23',cat:'🌦️ Weather Deep Dive',star:true,title:'All 5 Weather Events — What Drops Where',body:'Each event lasts 15 min. Kiki & Lala Meteorology: 50% shorter wait (20-40 min → 10-20 min). Manual activate once/7 days with crafted Island Stones.\n\nRAINFALL (Aquafaller/"Rain or Shine"): Rainfall Flowers appear ONLY in Seaside Resort, Spooky Swamp, Merry Meadow. Water with Watering Can → 1 Raindrop each. ALSO waters planted flowers automatically. Stays until collected. NOT regenerated by Island Bouquet.\n\nSTARFALL NIGHT ONLY (Celestree/"Reach for Stars"→"Constellation Destination"): Star Treasure chests in Seaside, Spooky Swamp, Gemstone Mountain, Hothead, Merry Meadow, Cloud Island, The Moon (3 Stardrops each). NOT in Rainbow Reef or Wheatflour Wonderland. Rainbow Reef: fish for Starry Snipes. Cloud Island: catch Stardrakes.\n\nSTEAM (Heater machine): Thermals (boulders) in Gemstone Mountain, Mount Hothead, Spooky Swamp only. Pickaxe to break → 3 Steamdrops.\n\nSNOWFALL (Arctifier/"Mountain Hopes"→"Peak Weather"): Snow Nuls appear in multiple regions — walk into them for Snowdrops. Region-specific rare critters (Frost Friend in Spooky Swamp).\n\nFLOURFALL (WW only): WW equivalent of Snowfall. Occurs automatically. Wonderous Stone (Grand Flowl Spelt, Critter Temple — after partial completion) activates Flourfall/Starfall/Rainfall in WW once per 7 days.'},
+  {id:'s24',cat:'🌦️ Weather Deep Dive',star:false,title:'Weather Currency Strategy',body:'Weather currencies persist until the same weather respawns in the same region (3-day stacking does NOT apply to weather). So: collect whenever you can but missing a weather event means waiting for next occurrence, not losing the currency. Manually triggered weather (Island Stone) lets you control when events happen. Only 1 active weather event at a time — manually triggering during another event cancels the other.'},
+  {id:'s25',cat:'💛 Spirit Hearts — Main Story Climax',star:true,title:'Spirit Hearts: How to Heal the Island Spirit',body:'"Absence Makes the Heart" quest must be completed. Then: once per day, bring a Best Friend companion to the Island Spirit at Heart of the Island → they transfer a Spirit Heart. Need 15 Spirit Hearts + Big Challenges L20 + TOPHAT L10 for "Return to the Heart" quest (main story finale). CANNOT use: TOPHAT, Big Challenges, Kiki, Lala, or ANY DLC character (no Cogimyun, Usahana). Eligible 15 chars: Badtz-maru, Chococat, Cinnamoroll, Hangyodon, Hello Kitty, Keroppi, Kuromi, My Melody, My Sweet Piano, Pekkle, Pochacco, Pompompurin, Retsuko, Tuxedosam, Wish me mell. Note: Keroppi may be unavailable during certain quests in the chain.'},
+  {id:'s26',cat:'💛 Spirit Hearts — Main Story Climax',star:true,title:'"I.I." Mystery — Active Unsolved Lore',body:'During "Return to the Heart", Wish me mell receives a letter addressed to the Island Spirit from someone signing as "I. I.", asking to "take good care of the neighborhood." LittleTwinStars refer to the Island Spirit as "Grandma." TOPHAT and Big Challenges are her long-term friends who neglected the relationship. Nothing is currently known about the "I. I." character. This is an active mystery the community is tracking for future content.'},
+  {id:'s27',cat:'🏆 Achievements & Completionist',star:true,title:'Golden Stick → Golden Crown Mega-Grind',body:'"Stick Nation" achievement: photograph 96+ Gudetama → interact with Gudetama Sign near Pochacco → receive Golden Stick crafting plans (costs 99 regular Sticks per Golden Stick at Crafting Table). "Adorned in Gold" achievement: craft the Golden Crown using 100 Golden Sticks. Total cost: 100 × 99 = 9,900 regular Sticks. This is one of the most demanding completionist grinds in the game. Sticks spawn as ground material daily (stack for 3 days max = 3× daily). Start farming early.'},
+  {id:'s28',cat:'🏆 Achievements & Completionist',star:false,title:'Rarest Achievements (Steam)',body:'"Friendships Restored" (Reunite Island Spirit with her Best Friends): only 8.05% of Steam players have earned this — it is the main story finale. "New Heights" (reach Cloud Island): only 22.35%. "Adorned in Gold" (Golden Crown): under 5% estimated. "Dozens Surely!" requires photos of ALL 120 Gudetama scattered across every region. "Through Thick and Thin": take a companion to both the lowest trench (south of the dock between Gemstone and Rainbow Reef) AND the highest peak.'},
+  {id:'s29',cat:'🏙️ Imagination Café Deep Dive',star:true,title:'Unlock + Run the Imagination Café',body:'Unlock: Usahana L3 → "A Whole New Menu" quest. Café KEY is hidden on the ROOFTOP of the café building (grey-tiled area north of umbrella-marked entrance on map). Open to customers: Usahana L6 → "Imagination Cafe" quest (make Tropical, Veggie Mochi → then Creamy, Nutty, Magical Mochi → make a Magical Dango). Customers arrive at patio automatically at Usahana L18+. Daily limit: 100 customers. Canceled orders do NOT count. City Keys: max 4/day (1 per completed order). City Coins: vary by food type, boosted by Café level. Usahana companion bonus: Imaginary Chef (L4) gives chance at 2 extra food items AND ~25% City Coin bonus. Usahana return gift: Rice.'},
+
+  // PASS 1 — Critters, Fishing, Chests
+  {id:'s30',cat:'🦋 Critter & Fishing Guide',star:false,title:'Critter System Overview',body:'4 rarity tiers: Common, Uncommon, Rare, Legendary. Net catches land/flying critters; Bubble Wand also works and is best underwater. Critters can be donated to Nature Preserve (Spooky Swamp), Merry Meadow Critter Corral, or Cloud Island Critter Corral. Icy Peak critters CANNOT be donated anywhere. Comet Hoppers + Cosmouses (Moon-only) cannot be donated to Curator Nul at all. Best companion: Keroppi (Critter Calmer slows them 10-50%, Critter Friend reduces spook chance 25%).'},
+  {id:'s31',cat:'🦋 Critter & Fishing Guide',star:true,title:'Rare Critters — Location & Timing',body:'Acactnid: Rare spawn, Gemstone Mountain southwest of town near broken stairs. Morning only. Woolox: Rare spawn, top of Icy Peak in morning. Blizzards in the area — it is the only critter that endures the harsh peak conditions. Counts as Gemstone Mountain for Nature Preserve purposes. Soaking Snugler: Gemstone Town ponds and Oasis, during Rainfall weather only. Phantom Flutterby: Spooky Swamp graveyard near Hedge Maze, evening and nighttime only. Swampy Snapper: Spooky Swamp beach west of the biome, nighttime ONLY. Eruptoad: Hothead Caldera, morning and night. Tigersnoot: Red Hot Ruins entrance, morning/day/evening. Time of day matters widely: Twinklebug = Crystal Caves evening/night; Rockadoodler = Gemstone Town day only.'},
+  {id:'s32',cat:'🦋 Critter & Fishing Guide',star:false,title:'Nature Preserve — All 5 Critter List Locations',body:'The Nature Preserve in Spooky Swamp needs 5 Critter Lists to unlock all rooms. Bog List: base of giant tree surrounded by water near Nature Preserve building (early, requires Keroppi quest). Seaside List: roots of tree at back-left of Spooky Swamp room. Reef List: on a crate on left side of Seaside Resort room (swim to it). Gemstone List: bottom of ocean in Rainbow Reef room (need Snorkel). Volcano List: behind cracked boulder in Gemstone room (need Pickaxe + My Melody L11 for Oasis/Pickaxe quests).'},
+  {id:'s33',cat:'🦋 Critter & Fishing Guide',star:false,title:'Fishing Guide + Fwishing Well',body:'Unlock: "Keep It Reel" quest at Badtz-maru L3. Rod crafts with: Sticks + Thread (Tuxedosam return gift) + Gizmos (Chococat return gift). Bait hook (press Hook icon near fishing rod) = higher rare fish chance. Release up to 10 fish/day at Badtz-maru for materials — type depends on fish region tag. Fwishing Well: donate fish for Fwish furniture (needed for Pam cabin). Points: common = 1pt, rare = 2pts, need ~10pts for reward. May take 100+ fish total. Glimmerling Narluga: story fish, not catchable. After "Seaside Sanctuary" quest, interact with it near Hopscotch Islands. Comic book "Badtz-man and Bestie" unlocks "Comic Completionist" quest with 10 one-time-only specific spawn locations.'},
+  {id:'s34',cat:'📦 Chest Types — Complete Guide',star:false,title:'All Chest Types and How to Open Them',body:'Regular Chests: scattered everywhere, one-time, contain furniture/clothing/crafting plans/materials. Locked Chests: need Bubble Wand to unlock (some need Coral Key). Radiant Chests: pink/coral chests scattered across Friendship Island, Icy Peak, Cloud Island — open with Coral Key. Golden Chests: contain Stamina Apple Slices (used to craft Stamina Apples for more climbing stamina). Big Challenges Chests: contain Balloons, unlocked via "Float Away Fun" quest. Puzzle Chests: end of puzzle rooms, reward for completion. Treasure Hunt Chests: random island locations during Treasure Hunt event. Wheatflour Wonderland Chests: most require specific Gemstone to unlock and contain Wheathearts. Coral Keys: from Recycling Plant (Rainbow Reef) by recycling Trash. Each key opens one Radiant Chest. Also obtainable from Treasure Hunt rewards.'},
+  // PASS 2 — Together Forever, Blossoms, Challenge Courses
+  {id:'s35',cat:'🌟 Together Forever — 2-Companion Unlock',star:true,title:'Together Forever Quest — Exact Steps',body:'Requirements: Kiki L20 + Lala L20 + "Return to the Heart" series completed. Steps: 1) Speak to Cinnamoroll (will say Kiki wants to see you). 2) Craft 1 Art Supplies. 3) Gift Art Supplies to Lala at Cloud Island Plaza. 4) Kiki and Lala talk about adventures. 5) Meet both at Resort Docks in Seaside Resort. 6) Kiki wants to fish — catch one fish together. 7) Speak to Lala → 2-companion mode unlocked! After this: Kiki and Lala always come as a PAIR when called (both follow, uses one companion slot). Meteorology ability activates for both.'},
+  {id:'s36',cat:'💐 Blossoms & Bouquets — Complete Guide',star:false,title:'All 3 Reset Items — When to Use Each',body:'FRIENDSHIP BLOSSOM: Resets gift limit for ONE specific character. Received Tuesday + Thursday as daily rewards. Max 3 in inventory. Best use: use AFTER giving all 3 daily gifts to target character. FRIENDSHIP BOUQUET: Resets gift limit for ALL residents at once. Received every Saturday. Max 3. Can use multiple times per day. Critical rule: use AFTER giving all 3 daily gifts to EVERYONE — a bouquet only restores used slots, not unused ones. Cannot use on another player\'s island. ISLAND BOUQUET: Resets all daily MATERIAL SPAWNS. Does not stack! Using before collecting still only gives the normal daily amount. Max 3. Cannot use on other islands. Deluxe Edition adds Deluxe Island Bouquets from "Deluxe Starter Bundle" quest.'},
+  {id:'s37',cat:'🏆 Challenge Courses — Complete Guide',star:false,title:'48 Courses, 7 Biomes — All Tiers & Rewards',body:'48 Challenge Courses total across 7 biomes. 3 tiers per course: Bronze (most time), Silver, Gold (least). Each tier earns Trophy Pieces — collect all to craft a biome Trophy. Plans come with first Trophy Piece per difficulty. Biomes: Seaside Resort (some need Flippers), Spooky Swamp (some need Flippers), Rainbow Reef (underwater Obstacle Rings — need Flippers + Snorkel), Gemstone Mountain, Mount Hothead, Cloud Island, Merry Meadow (6 courses — need 3 Giant Seeds planted and grown over 3 days to access all). 7 Gold Trophy achievements (one per biome). Best companions: Pochacco (speed), Pompompurin (+5 seconds on some courses), Hangyodon for Rainbow Reef, Relay ability helps. Courses use Athlete Coins on land, Obstacle Rings underwater.'},
+  // PASS 3 — Boutique, v2.16
+  {id:'s38',cat:'🎨 Kuromi\'s Boutique — Custom Palettes',star:true,title:'How to Make Custom Avatar Palettes',body:'Unlock: "Magic Makeover" quest in City Town DLC. Location: shopping mall, 2nd level, northwest City Town. Use Large Black Mirror near salon chair. Recipe: 10 solid flowers of same type + color = that hue as a palette color. Tinting: add 5 White flowers = light tint; 10 White flowers = very light tint. Shading: 5 Black flowers = dark; 10 Black = very dark. Up to 10 custom palette slots. Pick 3 colors per palette. Flowers must come from your own flower plots or Greenhouse. The exact hue depends on the FLOWER\'S color — so breeding rare flower colors directly unlocks new palette options. Pro tip: rare flower colors = unique palette hues you can\'t get otherwise.'},
+  {id:'s39',cat:'📱 2026 Updates — What\'s New',star:true,title:'Version 2.16 "Garden Wishes" (May 13, 2026)',body:'Released Apple Arcade May 13, 2026. Runs through June 18. NEW: Under the Sea Celebration — collect Barnacles, exchange for mermaid-themed outfits. NEW: Undersea Treasure Hunt with furniture + clothing rewards. NEW: Weekly Parties on Friendship Island (recurring social loop). Visual overhaul for Rainbow Reef coral regions. NEW: Text-to-Speech accessibility feature (highly requested). PC/console Content Update 7 expected June 2026. HKIA won Webby People\'s Voice award (Kids & Family) for the second time.'},
+  {id:'s40',cat:'📱 2026 Updates — What\'s New',star:false,title:'Upcoming Content (Sunblink Roadmap)',body:'Update 2.17 expected June 24, 2026 (Apple Arcade). Free major update in Fall 2026 — will "evolve and expand core gameplay." First paid cosmetic pack coming Summer 2026 (no gameplay content, cosmetics only). No more staggered major paid DLC releases going forward. Nintendo Switch 2 Edition available ($9.99 upgrade pack): higher frame rates, better resolution, CameraPlay with GameChat, Joy-Con 2 mouse controls. Sunblink is "strongly against microtransactions" on any platform.'},
+
+];
+
+// SECRETS RENDER
+(function(){
+  const cats=[...new Set(SECRETS_DATA.map(s=>s.cat))];
+  document.getElementById('sec-list').innerHTML=cats.map(cat=>{
+    const items=SECRETS_DATA.filter(s=>s.cat===cat);
+    return `<div style="margin-bottom:14px"><div class="sec-head"><div class="sec-line"></div><div class="sec-label">${esc(cat)}</div><div class="sec-line"></div></div>${
+      items.map(s=>`<div class="ac" id="ac-${s.id}"><button class="ac-btn" aria-expanded="false" aria-controls="sb-${s.id}" onclick="tog('ac','${s.id}')"><div class="ac-left"><div><div class="ac-name">${s.star?'⭐ ':''}<span style="font-weight:800">${esc(s.title)}</span></div></div></div><span class="ac-chev" aria-hidden="true">▼</span></button><div class="ac-body" id="sb-${s.id}" role="region"><p style="font-size:12px;color:var(--t2);line-height:1.55;margin-top:8px">${esc(s.body)}</p></div></div>`).join('')
+    }</div>`;
+  }).join('');
+})();
+
+// ORACLE
+document.getElementById('suggs').innerHTML=SQ.map(s=>`<button class="sbtn" onclick="setSug(${JSON.stringify(s)})">${esc(s)}</button>`).join('');
+addMsg('a','Hi! I\'m the Island Oracle — I know every visitor\'s cabin requirements, all crafting station unlock quests, mini workbench routes, questline order, seasonal events, companions, and flowers. Ask anything. 🌺');
+function setSug(t){document.getElementById('oi').value=t;document.getElementById('oi').focus();}
+function addMsg(role,text){const w=document.getElementById('cwin');const d=document.createElement('div');d.className=role==='u'?'msg msg-u':(role==='t'?'msg msg-t':'msg msg-a');d.textContent=text;w.appendChild(d);w.scrollTop=w.scrollHeight;return d;}
+const hist=[];
+async function sendMsg(){
+  const inp=document.getElementById('oi'),btn=document.getElementById('osend');
+  const txt=inp.value.trim();if(!txt||btn.disabled)return;
+  inp.value='';btn.disabled=true;btn.setAttribute('aria-busy','true');
+  addMsg('u',txt);hist.push({role:'user',content:txt});
+  const th=addMsg('t','Consulting the island spirits…');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:hist})});
+    th.remove();
+    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'Error '+r.status);}
+    const data=await r.json();
+    const reply=data.content?.[0]?.text||'No response — try again.';
+    hist.push({role:'assistant',content:reply});addMsg('a',reply);
+  }catch(e){th.remove();addMsg('a','Couldn\'t reach oracle. '+e.message);}
+  finally{btn.disabled=false;btn.removeAttribute('aria-busy');}
+}
+document.getElementById('oi').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+
+// SHARED ACCORDION
+function tog(prefix,id){
+  const card=document.getElementById(prefix+'-'+id);
+  const btn=card.querySelector('button');
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('.'+prefix).forEach(c=>{c.classList.remove('open');c.querySelector('button').setAttribute('aria-expanded','false');});
+    if(!isOpen){card.classList.add('open');btn.setAttribute('aria-expanded','true');}
+  if(!isOpen){card.classList.add('open');btn.setAttribute('aria-expanded','true');}
+}
+
+// TABS
+function go(id){
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected','false'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).setAttribute('aria-selected','true');
+  document.getElementById('panel-'+id).classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════
+// PLANNER
+// ════════════════════════════════════════════════════════
+
+const CHAIN_QUESTS = [
+  {id:'q_hh',  label:'Helping Haida',        short:'Helping Haida',        desc:'Quest with Retsuko — triggers Haida as visitor (every 2 wks)'},
+  {id:'q_ef',  label:'Everything Is Fine',   short:'Everything Is Fine',   desc:'Quest with Retsuko — triggers Fenneko + Puko (every 2 wks)'},
+  {id:'q_ats', label:'A Ton of Shadows',     short:'A Ton of Shadows',     desc:'Quest with Retsuko — triggers Gori + Washimi (every 2 wks)'},
+  {id:'q_sd',  label:'Subtract & Distract',  short:'Subtract & Distract',  desc:'Quest with Retsuko — triggers Chief Komiya (every 2 wks)'},
+  {id:'q_ls',  label:'Location Scouting',    short:'Location Scouting',    desc:'Quest with Retsuko — triggers Yoga Instructor (every 3 wks)'},
+];
+
+const CHAIN_TIERS = [
+  {
+    label:'Tier 1 \u2014 Quest-gated visitors',
+    visitors:[
+      {id:'haida',   name:'Haida',           freq:'2 wks',   gift:'Gizmo',             req:{q:['q_hh']}},
+      {id:'fenneko', name:'Fenneko',          freq:'2 wks',   gift:'Machine Part',      req:{q:['q_ef']}},
+      {id:'puko',    name:'Puko',             freq:'2 wks',   gift:'Espresso',          req:{q:['q_ef']}},
+      {id:'gori',    name:'Gori',             freq:'2 wks',   gift:'Spark',             req:{q:['q_ats']}},
+      {id:'washimi', name:'Washimi',          freq:'2 wks',   gift:'White Dye \u00d75', req:{q:['q_ats']}},
+      {id:'komiya',  name:'Chief Komiya',     freq:'2 wks',   gift:'Coconut',           req:{q:['q_sd']}},
+      {id:'yoga',    name:'Yoga Instructor',  freq:'3 wks',   gift:'Protein Omelet',    req:{q:['q_ls']}},
+    ]
+  },
+  {
+    label:'Tier 2 \u2014 Star-gated',
+    visitors:[
+      {id:'rm',      name:"Retsuko's Mom",    freq:'Anytime', gift:'Tofu Bread',        req:{s:{haida:5}}},
+      {id:'tsunoda', name:'Tsunoda',           freq:'2 wks',   gift:'Seashell',          req:{s:{gori:5,washimi:5}},   note:'Needs BOTH Gori + Washimi 5\u2605'},
+      {id:'manaka',  name:'Manaka',            freq:'4 wks',   gift:'Paper',             req:{s:{puko:5}}},
+    ]
+  },
+  {
+    label:'Tier 3 \u2014 Deep chain',
+    visitors:[
+      {id:'kabae',   name:'Kabae',             freq:'2 wks',   gift:'Spark',             req:{s:{tsunoda:5}}},
+      {id:'migi',    name:'Migi',              freq:'\u2600\ufe0f/\u2744\ufe0f season',  gift:'Calming Crystal',  req:{s:{puko:5},p:['manaka']}, note:'Summer & Winter only'},
+      {id:'hidarin', name:'Hidarin',            freq:'\ud83c\udf38/\ud83c\udf42 season', gift:'Fabric',           req:{s:{puko:5},p:['manaka']}, note:'Spring & Fall only'},
+    ]
+  }
+];
+
+const DEFAULT_GOALS = [
+  {
+    id:'barnacles', name:'\ud83c\udf0a Under the Sea \u2014 Barnacles',
+    daily:10, current:0, target:null, deadline:'2026-06-18',
+    note:'v2.16 Garden Wishes. Collect Barnacles each day, exchange for mermaid outfits. Event ends June 18.',
+    type:'event'
+  },
+  {
+    id:'weekly_parties', name:'\ud83c\udf89 Weekly Parties',
+    daily:1, current:0, target:4, deadline:'2026-06-18',
+    note:'v2.16 Garden Wishes. Attend 1 party per week on Friendship Island. ~4 parties before June 18.',
+    type:'weekly'
+  },
+];
+
+// ── State (localStorage with in-memory fallback) ─────────────────────
+let PS = {quests:{}, stars:{}, goals: JSON.parse(JSON.stringify(DEFAULT_GOALS))};
+
+(function psLoad(){
+  try {
+    const raw = localStorage.getItem('hkia_ps');
+    if(raw){
+      const d = JSON.parse(raw);
+      if(d.quests) PS.quests = d.quests;
+      if(d.stars)  PS.stars  = d.stars;
+      if(d.goals && d.goals.length) PS.goals = d.goals;
+    }
+  } catch(e){}
+})();
+
+function psSave(){
+  try{ localStorage.setItem('hkia_ps', JSON.stringify(PS)); } catch(e){}
+}
+
+// ── Dependency logic ─────────────────────────────────────────────────
+function vStatus(v){
+  const r = v.req||{};
+  if(r.q){ for(const q of r.q){ if(!PS.quests[q]) return 'locked'; } }
+  if(r.s){ for(const [id,n] of Object.entries(r.s)){ if((PS.stars[id]||0)<n) return 'locked'; } }
+  if(r.p){ for(const id of r.p){ if((PS.stars[id]||0)<5) return 'locked'; } }
+  const st = PS.stars[v.id]||0;
+  return st>=5 ? 'done' : st>0 ? 'active' : 'ready';
+}
+
+function lockReason(v){
+  const r = v.req||{}, parts=[];
+  if(r.q){ for(const q of r.q){ if(!PS.quests[q]){ const qd=CHAIN_QUESTS.find(x=>x.id===q); parts.push('Quest: '+qd.short); } } }
+  if(r.s){ for(const [id,n] of Object.entries(r.s)){ if((PS.stars[id]||0)<n){ parts.push(visName(id)+' '+(PS.stars[id]||0)+'/5\u2605'); } } }
+  if(r.p){ for(const id of r.p){ if((PS.stars[id]||0)<5){ parts.push(visName(id)+' must be permanent'); } } }
+  return parts.join(' \u2b24 ')||'Locked';
+}
+
+function visName(id){
+  for(const t of CHAIN_TIERS){ const v=t.visitors.find(x=>x.id===id); if(v) return v.name; }
+  return id;
+}
+
+function visQuestBlocked(id){
+  for(const t of CHAIN_TIERS){
+    const v=t.visitors.find(x=>x.id===id);
+    if(v && v.req && v.req.q){ for(const q of v.req.q){ if(!PS.quests[q]) return true; } }
+  }
+  return false;
+}
+
+// ── Interaction ───────────────────────────────────────────────────────
+function planToggleQuest(id){
+  PS.quests[id] = !PS.quests[id];
+  psSave(); renderPlanner();
+}
+
+function planSetStars(id, n){
+  PS.stars[id] = (PS.stars[id]===n) ? n-1 : n;
+  psSave(); renderPlanner();
+}
+
+function planAdjGoal(i, d){
+  const g=PS.goals[i];
+  g.current = Math.max(0, (g.current||0)+d);
+  if(g.target) g.current = Math.min(g.target, g.current);
+  psSave(); renderGoals();
+}
+
+function planDelGoal(i){ PS.goals.splice(i,1); psSave(); renderGoals(); }
+
+function planAddGoal(){
+  const name = prompt('Goal name (e.g. "Milk quest: visits needed"):');
+  if(!name) return;
+  const tgt = prompt('Target count? (blank = open-ended):');
+  const daily = prompt('Daily target amount (or blank):');
+  const dl = prompt('Deadline YYYY-MM-DD (or blank):');
+  PS.goals.push({
+    id:'c_'+Date.now(), name, current:0,
+    target: tgt?parseInt(tgt)||null:null,
+    daily: daily?parseInt(daily)||null:null,
+    deadline: dl&&dl.trim()||null,
+    note:'', type:'custom'
+  });
+  psSave(); renderGoals();
+}
+
+// ── Render ────────────────────────────────────────────────────────────
+function renderPlanner(){
+  if(!document.getElementById('plan-quests')) return;
+  renderPlanQuests();
+  renderPlanChain();
+  renderPlanRoute();
+  renderGoals();
+}
+
+function renderPlanQuests(){
+  document.getElementById('plan-quests').innerHTML = CHAIN_QUESTS.map(q=>{
+    const done = !!PS.quests[q.id];
+    return `<button class="plan-quest${done?' pq-done':''}" onclick="planToggleQuest('${q.id}')" title="${q.desc}">${q.label}</button>`;
+  }).join('');
+}
+
+function renderPlanChain(){
+  const el = document.getElementById('plan-chain');
+  el.innerHTML = CHAIN_TIERS.map((tier,ti)=>{
+    const cards = tier.visitors.map(v=>{
+      const st = vStatus(v);
+      const stars = PS.stars[v.id]||0;
+      const locked = st==='locked';
+      const dots = [1,2,3,4,5].map(n=>{
+        const filled = n<=stars;
+        return `<button class="pd${filled?' pf':''}" onclick="${locked?'':'planSetStars(\''+v.id+'\','+n+')'}" title="${n}\u2605">\u25cf</button>`;
+      }).join('');
+      return `<div class="pcard ps-${st}">
+  <div class="pc-name" title="${v.note||''}">${v.name}</div>
+  <div class="pc-freq">${v.freq}${v.note?' \u00b7 '+v.note:''}</div>
+  <div class="pc-stars">${dots}</div>
+  ${locked?`<div class="pc-lock">\ud83d\udd12 ${lockReason(v)}</div>`:''}
+  ${st==='done'?'<div class="pc-done-badge">\u2605 Permanent</div>':''}
+  ${!locked&&st!=='done'?`<div class="pc-gift-lbl">Gift: ${v.gift}</div>`:''}
+</div>`;
+    }).join('');
+    return `<div class="ptier">
+  <div class="ptier-lbl">${tier.label}</div>
+  <div class="ptier-cards">${cards}</div>
+</div>`;
+  }).join('<div class="ptier-arrow">\u21b3 unlocks</div>');
+}
+
+function renderPlanRoute(){
+  const el = document.getElementById('plan-route');
+  const actions=[];
+
+  // Incomplete quests
+  for(const q of CHAIN_QUESTS){
+    if(!PS.quests[q.id]) actions.push({pri:0, text:`Complete "${q.label}" quest (${q.desc})`});
+  }
+
+  // Find closest star bottlenecks for locked visitors
+  for(const tier of CHAIN_TIERS){
+    for(const v of tier.visitors){
+      if(vStatus(v)==='locked'){
+        const r=v.req||{};
+        if(r.s){
+          for(const [bid,need] of Object.entries(r.s)){
+            const have=PS.stars[bid]||0;
+            if(have<need && !visQuestBlocked(bid)){
+              actions.push({pri:1, text:`${visName(bid)} ${have}/5\u2605 \u2014 ${need-have} more visit${need-have>1?'s':''} needed \u2192 unlocks ${v.name}`});
+            }
+          }
+        }
+        if(r.p){
+          for(const bid of r.p){
+            const have=PS.stars[bid]||0;
+            if(have<5){
+              actions.push({pri:1, text:`${visName(bid)} needs to be permanent (${have}/5\u2605) \u2192 then unlocks Migi + Hidarin`});
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Ready visitors (unlocked, 0 stars) — set up cabin
+  for(const tier of CHAIN_TIERS){
+    for(const v of tier.visitors){
+      if(vStatus(v)==='ready') actions.push({pri:2, text:`Set up cabin for ${v.name} (${v.freq}) \u2014 gift: ${v.gift}`});
+    }
+  }
+
+  // Active visitors already visiting
+  for(const tier of CHAIN_TIERS){
+    for(const v of tier.visitors){
+      if(vStatus(v)==='active'){
+        const st=PS.stars[v.id]||0;
+        actions.push({pri:3, text:`${v.name} \u2014 ${st}/5\u2605, ${5-st} more daily quest${5-st>1?'s':''} to permanent`});
+      }
+    }
+  }
+
+  if(!actions.length){ el.innerHTML='<div class="plan-all-done">\u2726 Full chain unlocked \u2014 all visitors permanent!</div>'; return; }
+  actions.sort((a,b)=>a.pri-b.pri);
+  const items = actions.slice(0,6).map(a=>`<div class="plan-route-item">${a.text}</div>`).join('');
+  el.innerHTML = `<div class="plan-route-box"><div class="plan-route-title">\u25b8 Priority actions (${actions.length} total)</div>${items}</div>`;
+}
+
+function renderGoals(){
+  const el = document.getElementById('plan-goals');
+  if(!el) return;
+  const now = Date.now();
+  el.innerHTML = PS.goals.map((g,i)=>{
+    const dl = g.deadline ? new Date(g.deadline) : null;
+    const daysLeft = dl ? Math.ceil((dl-now)/(86400000)) : null;
+    const pct = (g.target && g.current) ? Math.min(100,Math.round(g.current/g.target*100)) : null;
+    const urgent = daysLeft!==null && daysLeft<=7 && daysLeft>=0;
+    const expired = daysLeft!==null && daysLeft<0;
+    return `<div class="goal-card${urgent?' goal-urgent':''}${expired?' goal-expired':''}">
+  <div class="goal-header">
+    <span class="goal-name">${g.name}</span>
+    ${daysLeft!==null&&!expired?`<span class="goal-dl${urgent?' goal-dl-red':''}">${daysLeft}d left</span>`:''}
+    ${expired?'<span class="goal-dl goal-dl-red">Ended</span>':''}
+  </div>
+  ${g.note?`<div class="goal-note">${g.note}</div>`:''}
+  <div class="goal-progress">
+    <div class="goal-nums">
+      <button class="goal-btn" onclick="planAdjGoal(${i},-1)">\u2212</button>
+      <span class="goal-count">${g.current}${g.target?'/'+g.target:''}</span>
+      <button class="goal-btn" onclick="planAdjGoal(${i},1)">+</button>
+      ${g.daily?`<span class="goal-daily">+${g.daily}/day target</span>`:''}
+    </div>
+    ${pct!==null?`<div class="goal-bar-wrap"><div class="goal-bar-fill" style="width:${pct}%"></div></div>`:''}
+  </div>
+  <button class="goal-del" onclick="planDelGoal(${i})" title="Remove">\u00d7</button>
+</div>`;
+  }).join('');
+}
+</script>
+</body>
+</html>
